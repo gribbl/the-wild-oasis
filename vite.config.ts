@@ -4,6 +4,7 @@ import adonisjs from '@adonisjs/vite/client'
 import vue from '@vitejs/plugin-vue'
 import autoprefixer from 'autoprefixer'
 import tailwind from 'tailwindcss'
+import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
@@ -16,6 +17,10 @@ export default defineConfig({
     inertia({ ssr: { enabled: true, entrypoint: 'inertia/ssr.ts' } }),
     vue(),
     adonisjs({ entrypoints: ['inertia/app.ts'], reload: ['resources/views/**/*.edge'] }),
+    Components({
+      dirs: ['inertia/components'],
+      dts: true,
+    }),
   ],
 
   /**
