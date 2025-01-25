@@ -8,9 +8,9 @@ export default {
   prefix: '',
 
   content: [
-    './inertia/pages/**/*.{ts,tsx,vue}',
-    './inertia/components/**/*.{ts,tsx,vue}',
-    './inertia/layouts/**/*.{ts,tsx,vue}',
+    './inertia/pages/**/*.vue',
+    './inertia/components/**/*.vue',
+    './inertia/layouts/**/*.vue',
     './resources/views/**/*.edge',
   ],
 
