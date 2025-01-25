@@ -8,9 +8,9 @@ export default {
   prefix: '',
 
   content: [
-    './inertia/pages/**/*.vue',
-    './inertia/components/**/*.vue',
-    './inertia/layouts/**/*.vue',
+    './inertia/pages/**/*.{vue,ts}',
+    './inertia/components/**/*.{vue,ts}',
+    './inertia/layouts/**/*.{vue,ts}',
     './resources/views/**/*.edge',
   ],
 
@@ -24,7 +24,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', ...defaultTheme.fontFamily.sans],
+        sans: ['Rubik', ...defaultTheme.fontFamily.sans],
       },
       colors: {
         border: 'hsl(var(--border))',

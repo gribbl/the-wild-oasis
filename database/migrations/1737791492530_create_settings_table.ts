@@ -1,4 +1,4 @@
-import { defaults } from '#config/settings'
+import config from '@adonisjs/core/services/config'
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
@@ -17,10 +17,10 @@ export default class extends BaseSchema {
 
     this.defer(async (db) => {
       await db.table(this.tableName).insert({
-        min_booking_length: defaults.minBookingLength,
-        max_bookin_length: defaults.maxBookingLength,
-        max_guests_per_booking: defaults.maxGuestsPerBooking,
-        breakfast_price: defaults.breakfastPrice,
+        min_booking_length: config.get('settings.minBookingLength'),
+        max_bookin_length: config.get('settings.maxBookingLength'),
+        max_guests_per_booking: config.get('settings.maxGuestsPerBooking'),
+        breakfast_price: config.get('settings.breakfastPrice'),
         created_at: this.now(),
         updated_at: this.now(),
       })

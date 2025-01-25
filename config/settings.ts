@@ -1,6 +1,4 @@
-export const defaults = {
-  minBookingLength: 10,
-  maxBookingLength: 90,
-  maxGuestsPerBooking: 8,
-  breakfastPrice: 15,
-}
+export const minBookingLength = 10
+export const maxBookingLength = 90
+export const maxGuestsPerBooking = 8
+export const breakfastPrice = 15

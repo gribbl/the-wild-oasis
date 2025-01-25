@@ -19,5 +19,7 @@ declare module 'vue' {
     FormMessage: typeof import('./inertia/components/ui/form/FormMessage.vue')['default']
     Input: typeof import('./inertia/components/ui/input/Input.vue')['default']
     Label: typeof import('./inertia/components/ui/label/Label.vue')['default']
+    Sonner: typeof import('./inertia/components/ui/sonner/Sonner.vue')['default']
+    Toasts: typeof import('./inertia/components/Toasts.vue')['default']
   }
 }

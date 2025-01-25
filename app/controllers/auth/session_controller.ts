@@ -15,6 +15,12 @@ export default class SessionController {
 
     session.flash('success', 'Vous êtes connecté.')
 
-    return response.redirect().toRoute('home')
+    return response.redirect().toRoute('dashboard')
+  }
+
+  async destroy({ response, auth, session }: HttpContext) {
+    await auth.use('web').logout()
+    session.flash('success', 'Vous êtes déconnecté.')
+    return response.redirect().toRoute('login')
   }
 }
