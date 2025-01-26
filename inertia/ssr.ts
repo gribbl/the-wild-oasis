@@ -9,7 +9,7 @@ export default function render(page: any) {
   return createInertiaApp({
     page,
     render: renderToString,
-    title: (title) => `${title} - The Wild Oasis`,
+    title: (title) => `${title} - The Wild Valley`,
     resolve: (name) => {
       const pages = import.meta.glob<DefineComponent>('./pages/**/*.vue', { eager: true })
       const resolvedPage = pages[`./pages/${name}.vue`]

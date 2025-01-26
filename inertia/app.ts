@@ -12,7 +12,7 @@ import AuthLayout from './layouts/AuthLayout.vue'
 import DashboardLayout from './layouts/DashboardLayout.vue'
 
 createInertiaApp({
-  title: (title) => `${title} - The Wild Oasis`,
+  title: (title) => `${title} - The Wild Valley`,
   resolve: async (name) => {
     const resolvedPage = await resolvePageComponent(
       `./pages/${name}.vue`,
