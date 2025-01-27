@@ -7,10 +7,10 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table
-        .integer('cabin_id')
+        .integer('cottage_id')
         .unsigned()
         .references('id')
-        .inTable('cabins')
+        .inTable('cottages')
         .onDelete('CASCADE')
         .notNullable()
       table
@@ -22,7 +22,7 @@ export default class extends BaseSchema {
         .notNullable()
       table.integer('nights')
       table.integer('guests')
-      table.integer('cabine_price')
+      table.integer('cottage_price')
       table.integer('extras_price')
       table.integer('total_price')
       table.string('status')

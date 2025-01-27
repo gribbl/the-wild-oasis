@@ -4,7 +4,7 @@ import { LogOutIcon, MoonIcon, UserIcon } from 'lucide-vue-next'
 </script>
 
 <template>
-  <div class="grid min-h-screen grid-cols-[18rem_1fr] bg-slate-50">
+  <div class="grid min-h-screen grid-cols-[18rem_1fr] bg-muted/50">
     <Sidebar />
     <div>
       <div

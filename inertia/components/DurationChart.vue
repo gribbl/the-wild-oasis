@@ -5,7 +5,7 @@ const data = [
     pourcentage: Math.random() * 101,
   },
   {
-    name: 'Entre 6 et 10 nuits',
+    name: 'Entre 5 et 10 nuits',
     pourcentage: Math.random() * 101,
   },
   {

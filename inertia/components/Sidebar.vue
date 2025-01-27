@@ -11,7 +11,7 @@ import {
 const links = [
   { name: 'Tableau de bord', icon: CircleGaugeIcon, href: '/dashboard' },
   { name: 'Réservations', icon: CalendarDaysIcon, href: '/bookings' },
-  { name: 'Cottages', icon: HouseIcon, href: '/cabins' },
+  { name: 'Cottages', icon: HouseIcon, href: '/cottages' },
   { name: 'Utilisateurs', icon: UsersIcon, href: '/users' },
   { name: 'Paramètres', icon: SettingsIcon, href: '/settings' },
 ]
