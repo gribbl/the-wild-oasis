@@ -1,5 +1,5 @@
 import Roles from '#enums/roles'
-import Cottage from '#models/Cottage'
+import Cottage from '#models/cottage'
 import Role from '#models/role'
 import User from '#models/user'
 import { BaseSeeder } from '@adonisjs/lucid/seeders'
