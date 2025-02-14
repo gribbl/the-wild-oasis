@@ -9,10 +9,10 @@ export default class Cottage extends BaseModel {
   declare name: string
 
   @column()
-  declare maxCapacity: number
+  declare capacity: number
 
   @column()
-  declare regularPrice: number
+  declare price: number
 
   @column()
   declare discount: number | null
