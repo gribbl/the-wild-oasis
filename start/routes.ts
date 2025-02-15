@@ -25,5 +25,6 @@ router
   .group(() => {
     router.get('/bookings', [BookingsController, 'index']).as('bookings.index')
     router.get('/cottages', [CottagesController, 'index']).as('cottages.index')
+    router.post('/cottages', [CottagesController, 'store']).as('cottages.store')
   })
   .use(middleware.auth())

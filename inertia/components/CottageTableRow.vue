@@ -2,12 +2,15 @@
 import type CottageDto from '#dtos/cottage'
 import { Link } from '@inertiajs/vue3'
 import { EllipsisVerticalIcon, PencilIcon, Trash2Icon } from 'lucide-vue-next'
+import { computed } from 'vue'
 
 type Props = {
   cottage: CottageDto
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
+
+const discount = computed(() => props.cottage.discount * props.cottage.price)
 </script>
 
 <template>
@@ -18,9 +21,7 @@ defineProps<Props>()
     <TableCell>{{ cottage.capacity }} personnes</TableCell>
     <TableCell class="font-sono font-medium"> {{ cottage.price.toFixed(2) }} € </TableCell>
     <TableCell>
-      <span v-if="cottage.discount" class="font-sono text-primary">
-        {{ cottage.discount.toFixed(2) }} €
-      </span>
+      <span v-if="discount" class="font-sono text-primary"> {{ discount.toFixed(2) }} € </span>
       <span v-else class="text-foreground">&ndash;</span>
     </TableCell>
     <TableCell>

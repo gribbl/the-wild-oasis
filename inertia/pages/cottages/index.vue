@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import CottagesController from '#controllers/cottages_controller'
-import { InferPageProps } from '@adonisjs/inertia/types'
+import { DtoPaginator } from '#dtos/base'
+import CottageDto from '#dtos/cottage'
 import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import { ref, watch } from 'vue'
 import CottageFilters from '~/components/CottageFilters.vue'
-import { DtoPaginator } from '../../../app/dtos/base'
-import type CottageDto from '../../../app/dtos/cottage'
 
 type Props = {
   cottages: DtoPaginator<CottageDto>
-  filters: InferPageProps<CottagesController, 'index'>['filters']
+  filters: Record<string, any>
 }
 
 const props = defineProps<Props>()
@@ -49,6 +47,8 @@ watch(sortBy, (value) => {
 watch(sortOrder, (value) => {
   router.get(page.url, { sortOrder: value }, { preserveState: true, preserveScroll: true })
 })
+
+const addCottageModalVisible = ref(false)
 </script>
 
 <template>
@@ -69,7 +69,7 @@ watch(sortOrder, (value) => {
   <CottageTable :cottages="cottages.data" />
 
   <div class="flex items-center justify-between">
-    <Button>Ajouter un cottage</Button>
+    <Button @click="addCottageModalVisible = true">Ajouter un cottage</Button>
     <div class="flex items-center gap-3">
       <Button variant="outline" as-child>
         <Link
@@ -93,4 +93,6 @@ watch(sortOrder, (value) => {
       </Button>
     </div>
   </div>
+
+  <AddCottageModal v-model:visible="addCottageModalVisible" />
 </template>

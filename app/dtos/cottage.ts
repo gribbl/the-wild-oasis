@@ -6,9 +6,9 @@ export default class CottageDto extends BaseDto {
   readonly name: string
   readonly capacity: number
   readonly price: number
-  readonly discount: number | null
+  readonly discount: number
   readonly description: string | null
-  readonly imageUrl: string
+  readonly imageFilename: string
   readonly createdAt: string
   readonly updatedAt: string
 
@@ -20,7 +20,7 @@ export default class CottageDto extends BaseDto {
     this.price = cottage.price
     this.discount = cottage.discount
     this.description = cottage.description
-    this.imageUrl = cottage.imageUrl
+    this.imageFilename = cottage.imageFilename
     this.createdAt = cottage.createdAt.toISO()!
     this.updatedAt = cottage.updatedAt.toISO()!
   }

@@ -24,19 +24,21 @@ const links = [
       <nav class="flex flex-col gap-3 self-stretch">
         <Link
           v-for="link in links"
-          class="group flex items-center gap-3 rounded px-5 py-3 transition hover:bg-slate-50"
-          :class="{ 'bg-slate-50': $page.url.startsWith(link.href) }"
+          class="group flex items-center gap-3 rounded px-5 py-3 transition hover:bg-muted-foreground/5"
+          :class="{ 'bg-muted-foreground/5': $page.url.startsWith(link.href) }"
           :href="link.href"
         >
           <component
             :is="link.icon"
-            class="size-6 transition group-hover:text-emerald-500"
-            :class="[$page.url.startsWith(link.href) ? 'text-emerald-500' : 'text-slate-500']"
+            class="size-6 transition group-hover:text-primary"
+            :class="[$page.url.startsWith(link.href) ? 'text-primary' : 'text-foreground/80']"
           />
           <span
-            class="group-hover:font-medium group-hover:text-slate-700"
+            class="group-hover:font-medium group-hover:text-foreground"
             :class="[
-              $page.url.startsWith(link.href) ? 'font-medium text-slate-700' : 'text-slate-600',
+              $page.url.startsWith(link.href)
+                ? 'font-medium text-foreground'
+                : 'text-muted-foreground',
             ]"
           >
             {{ link.name }}

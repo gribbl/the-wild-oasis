@@ -1,7 +1,9 @@
 import Cottage from '#models/cottage'
-import { cottageFilterValidator } from '#validators/cottage_filter'
+import { cottageFilterValidator, cottageValidator } from '#validators/cottage'
+import { cuid } from '@adonisjs/core/helpers'
 import type { HttpContext } from '@adonisjs/core/http'
-import CottageDto from '../dtos/cottage.js'
+import app from '@adonisjs/core/services/app'
+import CottageDto from '#dtos/cottage'
 
 export default class CottagesController {
   async index({ request, response, inertia }: HttpContext) {
@@ -15,12 +17,12 @@ export default class CottagesController {
     const query = Cottage.query().orderBy(sortBy, sortOrder)
 
     if (discount === 'with-discount') {
-      query.whereNotNull('discount')
+      query.where('discount', '>', 0)
     } else if (discount === 'no-discount') {
-      query.whereNull('discount')
+      query.where('discount', '=', 0)
     }
 
-    const cottages = await query.paginate(page, 5)
+    const cottages = await query.paginate(page, 10)
     const lastPage = cottages.lastPage
 
     cottages.baseUrl(request.url())
@@ -37,5 +39,28 @@ export default class CottagesController {
       cottages: CottageDto.fromPaginator(cottages),
       filters: request.qs(),
     })
+  }
+
+  async store({ request, response, session }: HttpContext) {
+    const payload = await request.validateUsing(cottageValidator)
+
+    const imageFilename = `${cuid()}.${payload.image.extname}`
+
+    await payload.image.move(app.makePath('storage/uploads'), {
+      name: imageFilename,
+    })
+
+    await Cottage.create({
+      name: payload.name,
+      capacity: payload.capacity,
+      price: payload.price,
+      discount: payload.discountPercentage,
+      description: payload.description,
+      imageFilename,
+    })
+
+    session.flash('success', 'Le cottage a bien été ajouté')
+
+    return response.redirect().withQs().back()
   }
 }

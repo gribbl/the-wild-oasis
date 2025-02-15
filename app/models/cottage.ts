@@ -15,13 +15,13 @@ export default class Cottage extends BaseModel {
   declare price: number
 
   @column()
-  declare discount: number | null
+  declare discount: number
 
   @column()
   declare description: string | null
 
   @column()
-  declare imageUrl: string
+  declare imageFilename: string
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
