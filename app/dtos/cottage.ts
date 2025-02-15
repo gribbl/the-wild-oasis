@@ -7,7 +7,7 @@ export default class CottageDto extends BaseDto {
   readonly capacity: number
   readonly price: number
   readonly discount: number
-  readonly description: string | null
+  readonly description: string
   readonly imageFilename: string
   readonly createdAt: string
   readonly updatedAt: string

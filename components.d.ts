@@ -7,7 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    AddCottageModal: typeof import('./inertia/components/AddCottageModal.vue')['default']
+    AddCottageModal: typeof import('./inertia/components/cottages/AddCottageModal.vue')['default']
     Alert: typeof import('./inertia/components/ui/alert/Alert.vue')['default']
     AlertDescription: typeof import('./inertia/components/ui/alert/AlertDescription.vue')['default']
     AlertDialog: typeof import('./inertia/components/ui/alert-dialog/AlertDialog.vue')['default']
@@ -36,10 +36,11 @@ declare module 'vue' {
     ChartSingleTooltip: typeof import('./inertia/components/ui/chart/ChartSingleTooltip.vue')['default']
     ChartTooltip: typeof import('./inertia/components/ui/chart/ChartTooltip.vue')['default']
     Checkbox: typeof import('./inertia/components/ui/checkbox/Checkbox.vue')['default']
-    ClientOnly: typeof import('./inertia/components/ClientOnly.vue')['default']
-    CottageFilters: typeof import('./inertia/components/CottageFilters.vue')['default']
-    CottageTable: typeof import('./inertia/components/CottageTable.vue')['default']
-    CottageTableRow: typeof import('./inertia/components/CottageTableRow.vue')['default']
+    ClientOnly: typeof import('./inertia/components/shared/ClientOnly.vue')['default']
+    CottageFilters: typeof import('./inertia/components/cottages/CottageFilters.vue')['default']
+    CottageTable: typeof import('./inertia/components/cottages/CottageTable.vue')['default']
+    CottageTableRow: typeof import('./inertia/components/cottages/CottageTableRow.vue')['default']
+    DestroyCottageModal: typeof import('./inertia/components/cottages/DestroyCottageModal.vue')['default']
     Dialog: typeof import('./inertia/components/ui/dialog/Dialog.vue')['default']
     DialogClose: typeof import('./inertia/components/ui/dialog/DialogClose.vue')['default']
     DialogContent: typeof import('./inertia/components/ui/dialog/DialogContent.vue')['default']
@@ -65,6 +66,7 @@ declare module 'vue' {
     DropdownMenuSubTrigger: typeof import('./inertia/components/ui/dropdown-menu/DropdownMenuSubTrigger.vue')['default']
     DropdownMenuTrigger: typeof import('./inertia/components/ui/dropdown-menu/DropdownMenuTrigger.vue')['default']
     DurationChart: typeof import('./inertia/components/DurationChart.vue')['default']
+    EditCottageModal: typeof import('./inertia/components/cottages/EditCottageModal.vue')['default']
     FormControl: typeof import('./inertia/components/ui/form/FormControl.vue')['default']
     FormDescription: typeof import('./inertia/components/ui/form/FormDescription.vue')['default']
     FormItem: typeof import('./inertia/components/ui/form/FormItem.vue')['default']

@@ -3,7 +3,7 @@ import { DtoPaginator } from '#dtos/base'
 import CottageDto from '#dtos/cottage'
 import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import { ref, watch } from 'vue'
-import CottageFilters from '~/components/CottageFilters.vue'
+import CottageFilters from '~/components/cottages/CottageFilters.vue'
 
 type Props = {
   cottages: DtoPaginator<CottageDto>
@@ -48,7 +48,7 @@ watch(sortOrder, (value) => {
   router.get(page.url, { sortOrder: value }, { preserveState: true, preserveScroll: true })
 })
 
-const addCottageModalVisible = ref(false)
+const isAddCottageModalOpen = ref(false)
 </script>
 
 <template>
@@ -69,7 +69,7 @@ const addCottageModalVisible = ref(false)
   <CottageTable :cottages="cottages.data" />
 
   <div class="flex items-center justify-between">
-    <Button @click="addCottageModalVisible = true">Ajouter un cottage</Button>
+    <Button @click="isAddCottageModalOpen = true">Ajouter un cottage</Button>
     <div class="flex items-center gap-3">
       <Button variant="outline" as-child>
         <Link
@@ -94,5 +94,5 @@ const addCottageModalVisible = ref(false)
     </div>
   </div>
 
-  <AddCottageModal v-model:visible="addCottageModalVisible" />
+  <AddCottageModal v-model:open="isAddCottageModalOpen" />
 </template>

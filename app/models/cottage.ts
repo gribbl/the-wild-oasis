@@ -18,7 +18,7 @@ export default class Cottage extends BaseModel {
   declare discount: number
 
   @column()
-  declare description: string | null
+  declare description: string
 
   @column()
   declare imageFilename: string

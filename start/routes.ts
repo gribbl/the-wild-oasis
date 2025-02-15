@@ -27,5 +27,6 @@ router
     router.get('/cottages', [CottagesController, 'index']).as('cottages.index')
     router.post('/cottages', [CottagesController, 'store']).as('cottages.store')
     router.delete('/cottages/:id', [CottagesController, 'destroy']).as('cottages.destroy')
+    router.put('/cottages/:id', [CottagesController, 'update']).as('cottages.update')
   })
   .use(middleware.auth())

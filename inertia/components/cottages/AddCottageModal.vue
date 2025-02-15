@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { useForm, usePage } from '@inertiajs/vue3'
 import { LoaderIcon } from 'lucide-vue-next'
+import { watch } from 'vue'
 
-const visible = defineModel<boolean>('visible')
+const open = defineModel<boolean>('open')
 
 const page = usePage()
 
 const form = useForm({
   name: '',
   capacity: [2],
-  price: 249,
+  price: 250,
   discountPercentage: 0.0,
   description: '',
   image: null,
@@ -19,14 +20,18 @@ function addCottage() {
   form.post(page.url, {
     onSuccess: () => {
       form.reset()
-      visible.value = false
+      open.value = false
     },
   })
 }
+
+watch(open, (value) => {
+  if (!value) form.clearErrors()
+})
 </script>
 
 <template>
-  <Dialog v-model:open="visible">
+  <Dialog v-model:open="open">
     <DialogContent class="max-w-screen-md">
       <DialogHeader>
         <DialogTitle>Ajouter un cottage</DialogTitle>
@@ -47,12 +52,16 @@ function addCottage() {
             <div class="flex flex-col gap-1">
               <Label class="flex flex-col gap-2">Nom</Label>
               <Input v-model="form.name" :disabled="form.processing" />
+              <span v-if="form.errors.name" class="text-xs text-red-500">{{
+                form.errors.name
+              }}</span>
             </div>
 
             <NumberField
               id="price"
               v-model="form.price"
               :step="5"
+              :min="5"
               :format-options="{
                 style: 'currency',
                 currency: 'EUR',
@@ -67,6 +76,9 @@ function addCottage() {
                 <NumberFieldInput />
                 <NumberFieldIncrement />
               </NumberFieldContent>
+              <span v-if="form.errors.price" class="text-xs text-red-500">{{
+                form.errors.price
+              }}</span>
             </NumberField>
 
             <NumberField
@@ -86,6 +98,9 @@ function addCottage() {
                 <NumberFieldInput />
                 <NumberFieldIncrement />
               </NumberFieldContent>
+              <span v-if="form.errors.discountPercentage" class="text-xs text-red-500">{{
+                form.errors.discountPercentage
+              }}</span>
             </NumberField>
 
             <div class="flex flex-col gap-3">
@@ -99,6 +114,9 @@ function addCottage() {
                 :disabled="form.processing"
               />
               <span class="text-sm text-muted-foreground"> {{ form.capacity[0] }} personnes </span>
+              <span v-if="form.errors.capacity" class="text-xs text-red-500">{{
+                form.errors.capacity
+              }}</span>
             </div>
           </div>
 
@@ -111,6 +129,9 @@ function addCottage() {
                 class="flex-1 resize-none"
                 :disabled="form.processing"
               />
+              <span v-if="form.errors.description" class="text-xs text-red-500">{{
+                form.errors.description
+              }}</span>
             </div>
             <div class="flex flex-col gap-1">
               <Label class="flex flex-col gap-2">Image</Label>
@@ -119,6 +140,9 @@ function addCottage() {
                 type="file"
                 @input="form.image = $event.target.files[0]"
               />
+              <span v-if="form.errors.image" class="text-xs text-red-500">{{
+                form.errors.image
+              }}</span>
             </div>
           </div>
         </div>
