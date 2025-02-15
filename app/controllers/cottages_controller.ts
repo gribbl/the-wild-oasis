@@ -1,13 +1,16 @@
 import Cottage from '#models/cottage'
+import { cottageFilterValidator } from '#validators/cottage_filter'
 import type { HttpContext } from '@adonisjs/core/http'
 import CottageDto from '../dtos/cottage.js'
 
 export default class CottagesController {
   async index({ request, response, inertia }: HttpContext) {
-    const page = request.input('page', 1)
-    const discount = request.input('discount', 'all')
-    const sortBy = request.input('sortBy', 'name')
-    const sortOrder = request.input('sortOrder', 'asc')
+    const filters = await cottageFilterValidator.validate(request.qs())
+
+    const page = filters.page || 1
+    const discount = filters.discount || 'all'
+    const sortBy = filters.sortBy || 'name'
+    const sortOrder = filters.sortOrder || 'asc'
 
     const query = Cottage.query().orderBy(sortBy, sortOrder)
 
@@ -17,7 +20,7 @@ export default class CottagesController {
       query.whereNull('discount')
     }
 
-    const cottages = await query.paginate(page, 10)
+    const cottages = await query.paginate(page, 5)
     const lastPage = cottages.lastPage
 
     cottages.baseUrl(request.url())

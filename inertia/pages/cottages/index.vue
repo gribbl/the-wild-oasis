@@ -2,18 +2,13 @@
 import CottagesController from '#controllers/cottages_controller'
 import { InferPageProps } from '@adonisjs/inertia/types'
 import { Head, Link, router, usePage } from '@inertiajs/vue3'
-import {
-  ArrowDownNarrowWideIcon,
-  ArrowDownWideNarrowIcon,
-  EllipsisVerticalIcon,
-  PencilIcon,
-  Trash2Icon,
-} from 'lucide-vue-next'
-import { onMounted, ref, watch } from 'vue'
-import ClientOnly from '~/components/ClientOnly.vue'
+import { ref, watch } from 'vue'
+import CottageFilters from '~/components/CottageFilters.vue'
+import { DtoPaginator } from '../../../app/dtos/base'
+import type CottageDto from '../../../app/dtos/cottage'
 
 type Props = {
-  cottages: InferPageProps<CottagesController, 'index'>['cottages']
+  cottages: DtoPaginator<CottageDto>
   filters: InferPageProps<CottagesController, 'index'>['filters']
 }
 
@@ -21,21 +16,11 @@ const props = defineProps<Props>()
 
 const filter = ref(props.filters.discount || 'all')
 
-onMounted(() => console.log(filter.value))
-
 const filters = [
   { value: 'all', label: 'Tout' },
   { value: 'no-discount', label: 'Sans remise' },
   { value: 'with-discount', label: 'Avec remise' },
 ]
-
-const page = usePage()
-
-function toggleFilter(value: string | string[]) {
-  if (value) {
-    filter.value = value
-  }
-}
 
 const sortBy = ref(props.filters.sortBy || 'name')
 
@@ -51,101 +36,37 @@ function toggleSortOrder() {
   sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc'
 }
 
-onMounted(() => console.log('mounted'))
+const page = usePage()
 
-watch([filter, sortBy, sortOrder], ([discount, sortBy, sortOrder]) => {
-  router.get(
-    page.url,
-    { discount, sortBy, sortOrder },
-    { preserveState: true, preserveScroll: true }
-  )
+watch(filter, (value) => {
+  router.get(page.url, { discount: value }, { preserveState: true, preserveScroll: true })
+})
+
+watch(sortBy, (value) => {
+  router.get(page.url, { sortBy: value }, { preserveState: true, preserveScroll: true })
+})
+
+watch(sortOrder, (value) => {
+  router.get(page.url, { sortOrder: value }, { preserveState: true, preserveScroll: true })
 })
 </script>
 
 <template>
-  <Head>
-    <title>Cottages</title>
-  </Head>
+  <Head title="Cottages" />
 
   <div class="flex items-center justify-between">
     <h1 class="text-3xl font-bold tracking-wide text-slate-800">Cottages</h1>
-
-    <div class="flex items-center gap-3">
-      <ClientOnly>
-        <ToggleGroup :model-value="filter" type="single" @update:model-value="toggleFilter">
-          <ToggleGroupItem
-            v-for="filter in filters"
-            class="text-xs uppercase text-slate-600 hover:bg-slate-200 hover:text-slate-800 data-[state=on]:bg-primary data-[state=on]:text-background"
-            :value="filter.value"
-            aria-label="Toggle bold"
-          >
-            {{ filter.label }}
-          </ToggleGroupItem>
-        </ToggleGroup>
-      </ClientOnly>
-
-      <Select v-model="sortBy">
-        <SelectTrigger class="w-[180px] bg-white">
-          <SelectValue placeholder="Trier par" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectLabel>Trier par</SelectLabel>
-          <SelectItem v-for="option in sortOptions" :value="option.value">
-            {{ option.label }}
-          </SelectItem>
-        </SelectContent>
-      </Select>
-
-      <Button variant="outline" @click="toggleSortOrder">
-        <ArrowDownNarrowWideIcon v-if="sortOrder === 'asc'" />
-        <ArrowDownWideNarrowIcon v-else />
-      </Button>
-    </div>
+    <CottageFilters
+      v-model:filter="filter"
+      v-model:sort-by="sortBy"
+      v-model:sort-order="sortOrder"
+      :sort-options
+      :filters
+      @toggle-sort-order="toggleSortOrder"
+    />
   </div>
 
-  <div class="rounded-md border border-slate-200 bg-white p-4">
-    <Table layout="fixed">
-      <TableHeader>
-        <TableRow class="font-bold uppercase">
-          <TableHead>Cottage</TableHead>
-          <TableHead>Capacité</TableHead>
-          <TableHead>Prix</TableHead>
-          <TableHead>Remise</TableHead>
-          <TableHead></TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        <TableRow v-for="cottage in cottages.data" :key="cottage.id">
-          <TableCell class="font-medium">
-            <Link :href="`/cottages/${cottage.id}`">{{ cottage.name }}</Link>
-          </TableCell>
-          <TableCell>{{ cottage.capacity }} personnes</TableCell>
-          <TableCell class="font-sono font-medium"> {{ cottage.price.toFixed(2) }} € </TableCell>
-          <TableCell>
-            <span v-if="cottage.discount" class="font-sono text-primary">
-              {{ cottage.discount.toFixed(2) }} €
-            </span>
-            <span v-else class="text-foreground">&ndash;</span>
-          </TableCell>
-          <TableCell>
-            <DropdownMenu>
-              <DropdownMenuTrigger><EllipsisVerticalIcon class="size-5" /></DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem>
-                  <PencilIcon class="size-4" />
-                  <span>Modifier</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Trash2Icon class="size-4" />
-                  <span>Supprimer</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </TableCell>
-        </TableRow>
-      </TableBody>
-    </Table>
-  </div>
+  <CottageTable :cottages="cottages.data" />
 
   <div class="flex items-center justify-between">
     <Button>Ajouter un cottage</Button>
