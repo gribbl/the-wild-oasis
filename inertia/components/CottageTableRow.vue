@@ -10,7 +10,13 @@ type Props = {
 
 const props = defineProps<Props>()
 
+const emit = defineEmits(['delete'])
+
 const discount = computed(() => props.cottage.discount * props.cottage.price)
+
+function openDeleteDialog(id: number) {
+  emit('delete', id)
+}
 </script>
 
 <template>
@@ -32,7 +38,7 @@ const discount = computed(() => props.cottage.discount * props.cottage.price)
             <PencilIcon class="size-4" />
             <span>Modifier</span>
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem @click="openDeleteDialog(cottage.id)">
             <Trash2Icon class="size-4" />
             <span>Supprimer</span>
           </DropdownMenuItem>

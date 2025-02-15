@@ -59,8 +59,15 @@ export default class CottagesController {
       imageFilename,
     })
 
-    session.flash('success', 'Le cottage a bien été ajouté')
+    session.flash('success', 'Le cottage a été ajouté')
 
     return response.redirect().withQs().back()
+  }
+
+  async destroy({ response, params, session }: HttpContext) {
+    const cottage = await Cottage.findOrFail(params.id)
+    await cottage.delete()
+    session.flash('success', 'Le cottage a été supprimé')
+    return response.redirect().back()
   }
 }
