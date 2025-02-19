@@ -1,24 +1,13 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
-import {
-  CalendarDaysIcon,
-  CircleGaugeIcon,
-  HouseIcon,
-  SettingsIcon,
-  UsersIcon,
-} from 'lucide-vue-next'
 
-const links = [
-  { name: 'Tableau de bord', icon: CircleGaugeIcon, href: '/dashboard' },
-  { name: 'Réservations', icon: CalendarDaysIcon, href: '/bookings' },
-  { name: 'Cottages', icon: HouseIcon, href: '/cottages' },
-  { name: 'Utilisateurs', icon: UsersIcon, href: '/users' },
-  { name: 'Paramètres', icon: SettingsIcon, href: '/settings' },
-]
+defineProps<{
+  links: { name: string; href: string; icon: any }[]
+}>()
 </script>
 
 <template>
-  <aside class="border-r border-slate-200 bg-white">
+  <aside class="hidden w-72 shrink-0 border-r border-slate-200 bg-white xl:block">
     <div class="sticky top-0 flex flex-col items-center p-5">
       <img class="mb-10 h-24" :src="'logo-light.png'" alt="" />
       <nav class="flex flex-col gap-3 self-stretch">
@@ -31,15 +20,11 @@ const links = [
           <component
             :is="link.icon"
             class="size-6 transition group-hover:text-primary"
-            :class="[$page.url.startsWith(link.href) ? 'text-primary' : 'text-foreground/80']"
+            :class="[$page.url.startsWith(link.href) ? 'text-primary' : 'text-foreground/60']"
           />
           <span
-            class="group-hover:font-medium group-hover:text-foreground"
-            :class="[
-              $page.url.startsWith(link.href)
-                ? 'font-medium text-foreground'
-                : 'text-muted-foreground',
-            ]"
+            class="font-medium group-hover:text-foreground"
+            :class="[$page.url.startsWith(link.href) ? 'text-foreground' : 'text-foreground/50']"
           >
             {{ link.name }}
           </span>

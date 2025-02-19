@@ -25,19 +25,21 @@ function openEditingDialog(cottage: CottageDto) {
 
 <template>
   <TableRow>
-    <TableCell class="font-medium">
+    <TableCell class="whitespace-nowrap pr-4 font-medium">
       <Link :href="`/cottages/${cottage.id}`">{{ cottage.name }}</Link>
     </TableCell>
-    <TableCell>{{ cottage.capacity }} personnes</TableCell>
-    <TableCell class="font-sono font-medium"> {{ cottage.price.toFixed(2) }} € </TableCell>
-    <TableCell>
+    <TableCell class="whitespace-nowrap px-4">{{ cottage.capacity }} personnes</TableCell>
+    <TableCell class="whitespace-nowrap px-4 font-sono font-medium">
+      {{ cottage.price.toFixed(2) }} €
+    </TableCell>
+    <TableCell class="whitespace-nowrap px-4">
       <span v-if="discount" class="font-sono text-primary"> {{ discount.toFixed(2) }} € </span>
       <span v-else class="text-foreground">&ndash;</span>
     </TableCell>
-    <TableCell>
+    <TableCell class="pl-4">
       <DropdownMenu>
         <DropdownMenuTrigger> <EllipsisVerticalIcon class="size-5" /></DropdownMenuTrigger>
-        <DropdownMenuContent align="center">
+        <DropdownMenuContent align="end">
           <DropdownMenuItem @click="openEditingDialog(cottage)">
             <PencilIcon class="size-4" />
             <span>Modifier</span>

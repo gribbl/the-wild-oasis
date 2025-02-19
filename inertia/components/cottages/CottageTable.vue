@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import type CottageDto from '#dtos/cottage'
 import { ref, watch } from 'vue'
-import CottageTableRow from './CottageTableRow.vue'
 import { router, useForm } from '@inertiajs/vue3'
-import DestroyCottageModal from './DestroyCottageModal.vue'
 
 defineProps<{ cottages: CottageDto[] }>()
 
@@ -70,15 +68,17 @@ watch(isEditingDialogOpen, (value) => {
 </script>
 
 <template>
-  <div class="rounded-md border border-slate-200 bg-white p-4">
-    <Table layout="fixed">
+  <div
+    class="mb-5 min-w-full overflow-x-auto scroll-smooth rounded-md border border-slate-200 bg-white p-4"
+  >
+    <Table class="min-w-full" layout="fixed">
       <TableHeader>
         <TableRow class="font-bold uppercase">
-          <TableHead>Cottage</TableHead>
-          <TableHead>Capacité</TableHead>
-          <TableHead>Prix</TableHead>
-          <TableHead>Remise</TableHead>
-          <TableHead></TableHead>
+          <TableHead class="pr-4">Cottage</TableHead>
+          <TableHead class="px-4">Capacité</TableHead>
+          <TableHead class="px-4">Prix</TableHead>
+          <TableHead class="px-4">Remise</TableHead>
+          <TableHead class="pl-4"></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

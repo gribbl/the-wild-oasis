@@ -2,8 +2,8 @@
 import { DtoPaginator } from '#dtos/base'
 import CottageDto from '#dtos/cottage'
 import { Head, Link, router, usePage } from '@inertiajs/vue3'
+import { ChevronLeftIcon, ChevronRightIcon, PlusCircleIcon } from 'lucide-vue-next'
 import { ref, watch } from 'vue'
-import CottageFilters from '~/components/cottages/CottageFilters.vue'
 
 type Props = {
   cottages: DtoPaginator<CottageDto>
@@ -54,8 +54,11 @@ const isAddCottageModalOpen = ref(false)
 <template>
   <Head title="Cottages" />
 
-  <div class="flex items-center justify-between">
-    <h1 class="text-3xl font-bold tracking-wide text-slate-800">Cottages</h1>
+  <div class="mb-10 flex flex-col justify-between gap-5 md:flex-row">
+    <h1 class="text-center text-3xl font-bold tracking-wide text-slate-800 sm:text-left">
+      Cottages
+    </h1>
+
     <CottageFilters
       v-model:filter="filter"
       v-model:sort-by="sortBy"
@@ -68,27 +71,35 @@ const isAddCottageModalOpen = ref(false)
 
   <CottageTable :cottages="cottages.data" />
 
-  <div class="flex items-center justify-between">
-    <Button @click="isAddCottageModalOpen = true">Ajouter un cottage</Button>
+  <div class="flex flex-col-reverse justify-between gap-5 sm:flex-row lg:items-center">
+    <Button class="flex items-center gap-3" @click="isAddCottageModalOpen = true">
+      <PlusCircleIcon class="size-5" />
+      <span>Ajouter un cottage</span>
+    </Button>
+
     <div class="flex items-center gap-3">
       <Button variant="outline" as-child>
         <Link
+          class="flex-1"
           :class="{ 'pointer-events-none opacity-50': !cottages.pagination.previousPageUrl }"
           :href="cottages.pagination.previousPageUrl || ''"
           :aria-disabled="!cottages.pagination.previousPageUrl"
           preserve-state
         >
-          Précédent
+          <ChevronLeftIcon class="size-5" />
+          <span>Précédent</span>
         </Link>
       </Button>
       <Button variant="outline" as-child>
         <Link
+          class="flex-1"
           :class="{ 'pointer-events-none opacity-50': !cottages.pagination.nextPageUrl }"
           :href="cottages.pagination.nextPageUrl || ''"
           :aria-disabled="!cottages.pagination.nextPageUrl"
           preserve-state
         >
-          Suivant
+          <span>Suivant</span>
+          <ChevronRightIcon class="size-5" />
         </Link>
       </Button>
     </div>

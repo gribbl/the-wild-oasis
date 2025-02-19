@@ -12,15 +12,15 @@ const selectedPeriod = ref('7')
 </script>
 
 <template>
-  <Head>
-    <title>Tableau de bord</title>
-  </Head>
+  <Head title="Tableau de bord" />
 
-  <div class="flex items-center justify-between">
-    <h1 class="text-3xl font-bold tracking-wide text-slate-800">Tableau de bord</h1>
+  <div class="mb-10 flex flex-col justify-between gap-5 sm:flex-row sm:items-center">
+    <h1 class="text-center text-3xl font-bold tracking-wide text-slate-800 sm:text-left">
+      Tableau de bord
+    </h1>
 
     <Select v-model="selectedPeriod">
-      <SelectTrigger class="w-[180px] bg-white">
+      <SelectTrigger class="w-[180px] self-end bg-white">
         <SelectValue placeholder="Selectionnez une période" />
       </SelectTrigger>
       <SelectContent>
@@ -32,7 +32,7 @@ const selectedPeriod = ref('7')
     </Select>
   </div>
 
-  <div class="grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-4">
+  <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
     <Stats />
     <TodayActivity />
     <DurationChart />

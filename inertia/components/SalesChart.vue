@@ -15,7 +15,7 @@ const data = [
 
 <template>
   <div
-    class="col-span-4 flex flex-col gap-4 rounded-md border border-slate-200 bg-background p-4 pb-10"
+    class="flex min-w-full flex-col gap-4 rounded-md border border-slate-200 bg-background p-4 sm:col-span-2 xl:col-span-4"
   >
     <div class="mb-5 flex items-center justify-between border-b border-slate-100 pb-5">
       <span class="text-xl font-medium text-slate-600">Revenus</span>
@@ -23,12 +23,16 @@ const data = [
           01 Janvier 2025 &ndash; 26 Janvier 2025
         </span> -->
     </div>
-    <AreaChart
-      :data="data"
-      index="name"
-      :categories="['total', 'extras']"
-      :y-formatter="(value) => `${value} €`"
-    />
+
+    <div class="min-w-full overflow-x-auto">
+      <AreaChart
+        class="min-w-[600px]"
+        :data="data"
+        index="name"
+        :categories="['total', 'extras']"
+        :y-formatter="(value) => `${value} €`"
+      />
+    </div>
     <!-- <span class="text-center text-sm text-slate-400"> Aucune donnée pour cette période </span> -->
   </div>
 </template>

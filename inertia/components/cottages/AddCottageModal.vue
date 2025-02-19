@@ -31,8 +31,10 @@ watch(open, (value) => {
 </script>
 
 <template>
-  <Dialog v-model:open="open">
-    <DialogContent class="max-w-screen-md">
+  <Dialog v-model:open="open" class="z-50">
+    <DialogContent
+      class="flex h-screen max-w-screen-sm flex-col sm:grid sm:h-auto sm:flex-none lg:max-w-screen-md"
+    >
       <DialogHeader>
         <DialogTitle>Ajouter un cottage</DialogTitle>
       </DialogHeader>
@@ -43,18 +45,23 @@ watch(open, (value) => {
 
       <form
         id="form"
-        class="flex flex-col gap-4 py-4"
+        class="flex flex-1 flex-col gap-4 md:py-4"
         enctype="multipart/form-data"
         @submit.prevent="addCottage"
       >
-        <div class="grid grid-cols-2 gap-4">
-          <div class="flex flex-col gap-4">
+        <div class="flex h-full flex-col gap-4 md:flex-row">
+          <div class="flex flex-col gap-4 md:flex-1">
             <div class="flex flex-col gap-1">
-              <Label class="flex flex-col gap-2">Nom</Label>
-              <Input v-model="form.name" :disabled="form.processing" />
-              <span v-if="form.errors.name" class="text-xs text-red-500">{{
-                form.errors.name
-              }}</span>
+              <div class="flex items-center justify-between gap-3">
+                <Label for="name">Nom</Label>
+                <span v-if="form.errors.name" class="text-xs text-red-500 sm:hidden">
+                  {{ form.errors.name }}
+                </span>
+              </div>
+              <Input id="name" v-model="form.name" :disabled="form.processing" />
+              <span v-if="form.errors.name" class="hidden text-xs text-red-500 sm:block">
+                {{ form.errors.name }}
+              </span>
             </div>
 
             <NumberField
@@ -70,15 +77,20 @@ watch(open, (value) => {
               }"
               :disabled="form.processing"
             >
-              <Label for="price">Prix</Label>
+              <div class="flex items-center justify-between gap-3">
+                <Label for="price">Prix</Label>
+                <span v-if="form.errors.price" class="text-xs text-red-500 sm:hidden">
+                  {{ form.errors.price }}
+                </span>
+              </div>
               <NumberFieldContent>
                 <NumberFieldDecrement />
                 <NumberFieldInput />
                 <NumberFieldIncrement />
               </NumberFieldContent>
-              <span v-if="form.errors.price" class="text-xs text-red-500">{{
-                form.errors.price
-              }}</span>
+              <span v-if="form.errors.price" class="hidden text-xs text-red-500 sm:block">
+                {{ form.errors.price }}
+              </span>
             </NumberField>
 
             <NumberField
@@ -92,20 +104,34 @@ watch(open, (value) => {
               :max="0.1"
               :step="0.01"
             >
-              <Label for="discount">Remise</Label>
+              <div class="flex items-center justify-between gap-3">
+                <Label for="discount">Remise</Label>
+                <span v-if="form.errors.discountPercentage" class="text-xs text-red-500 sm:hidden">
+                  {{ form.errors.discountPercentage }}
+                </span>
+              </div>
               <NumberFieldContent>
                 <NumberFieldDecrement />
                 <NumberFieldInput />
                 <NumberFieldIncrement />
               </NumberFieldContent>
-              <span v-if="form.errors.discountPercentage" class="text-xs text-red-500">{{
-                form.errors.discountPercentage
-              }}</span>
+              <span
+                v-if="form.errors.discountPercentage"
+                class="hidden text-xs text-red-500 sm:block"
+              >
+                {{ form.errors.discountPercentage }}
+              </span>
             </NumberField>
 
             <div class="flex flex-col gap-3">
-              <Label class="flex flex-col gap-2">Capacité</Label>
+              <div class="flex items-center justify-between gap-3">
+                <Label for="capacity">Capacité</Label>
+                <span v-if="form.errors.capacity" class="text-xs text-red-500 sm:hidden">
+                  {{ form.errors.capacity }}
+                </span>
+              </div>
               <Slider
+                id="capacity"
                 v-model="form.capacity"
                 :default-value="[2]"
                 :max="10"
@@ -114,35 +140,46 @@ watch(open, (value) => {
                 :disabled="form.processing"
               />
               <span class="text-sm text-muted-foreground"> {{ form.capacity[0] }} personnes </span>
-              <span v-if="form.errors.capacity" class="text-xs text-red-500">{{
-                form.errors.capacity
-              }}</span>
+              <span v-if="form.errors.capacity" class="hidden text-xs text-red-500 sm:block">
+                {{ form.errors.capacity }}
+              </span>
             </div>
           </div>
 
-          <div class="flex flex-col gap-4">
+          <div class="flex flex-1 flex-col gap-4">
             <div class="flex flex-1 flex-col gap-1">
-              <Label for="description">Description</Label>
+              <div class="flex items-center justify-between gap-3">
+                <Label for="description">Description</Label>
+                <span v-if="form.errors.description" class="text-xs text-red-500 sm:hidden">
+                  {{ form.errors.description }}
+                </span>
+              </div>
               <Textarea
                 id="description"
                 v-model="form.description"
                 class="flex-1 resize-none"
                 :disabled="form.processing"
               />
-              <span v-if="form.errors.description" class="text-xs text-red-500">{{
-                form.errors.description
-              }}</span>
+              <span v-if="form.errors.description" class="hidden text-xs text-red-500 sm:block">
+                {{ form.errors.description }}
+              </span>
             </div>
             <div class="flex flex-col gap-1">
-              <Label class="flex flex-col gap-2">Image</Label>
+              <div class="flex items-center justify-between gap-3">
+                <Label for="image">Image</Label>
+                <span v-if="form.errors.image" class="text-xs text-red-500 sm:hidden">
+                  {{ form.errors.image }}
+                </span>
+              </div>
               <Input
+                id="image"
                 :disabled="form.processing"
                 type="file"
                 @input="form.image = $event.target.files[0]"
               />
-              <span v-if="form.errors.image" class="text-xs text-red-500">{{
-                form.errors.image
-              }}</span>
+              <span v-if="form.errors.image" class="hidden text-xs text-red-500 sm:block">
+                {{ form.errors.image }}
+              </span>
             </div>
           </div>
         </div>
