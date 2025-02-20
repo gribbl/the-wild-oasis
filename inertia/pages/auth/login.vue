@@ -52,7 +52,7 @@ function submit() {
         :disabled="form.processing"
       />
       <span v-if="form.errors.email" class="text-sm text-red-500">
-        {{ form.errors.email[0] }}
+        {{ form.errors.email }}
       </span>
     </div>
 
@@ -66,7 +66,7 @@ function submit() {
         :disabled="form.processing"
       />
       <span v-if="form.errors.password" class="text-sm text-red-500">
-        {{ form.errors.password[0] }}
+        {{ form.errors.password }}
       </span>
     </div>
 
