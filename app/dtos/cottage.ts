@@ -1,5 +1,5 @@
 import Cottage from '#models/cottage'
-import BaseDto from './base.js'
+import BaseDto from './base/dto.js'
 
 export default class CottageDto extends BaseDto {
   readonly id: number

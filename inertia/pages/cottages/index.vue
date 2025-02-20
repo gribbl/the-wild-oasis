@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { DtoPaginator } from '#dtos/base'
-import CottageDto from '#dtos/cottage'
+import type CottagesController from '#controllers/cottages_controller'
+import type { InferPageProps } from '@adonisjs/inertia/types'
 import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import { ChevronLeftIcon, ChevronRightIcon, PlusCircleIcon } from 'lucide-vue-next'
 import { ref, watch } from 'vue'
 
 type Props = {
-  cottages: DtoPaginator<CottageDto>
-  filters: Record<string, any>
+  cottages: InferPageProps<CottagesController, 'index'>['cottages']
+  filters: InferPageProps<CottagesController, 'index'>['filters']
 }
 
 const props = defineProps<Props>()
@@ -28,7 +28,7 @@ const sortOptions = [
   { value: 'capacity', label: 'Capacité' },
 ]
 
-const sortOrder = ref(props.filters.orderBy || 'asc')
+const sortOrder = ref(props.filters.sortOrder || 'asc')
 
 function toggleSortOrder() {
   sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc'

@@ -1,19 +1,5 @@
 import type { LucidRow, ModelPaginatorContract } from '@adonisjs/lucid/types/model'
-
-export interface DtoPaginator<Dto> {
-  data: Dto[]
-  pagination: {
-    total: number
-    perPage: number
-    currentPage: number
-    firstPage: number
-    lastPage: number
-    firstPageUrl: string
-    lastPageUrl: string
-    nextPageUrl: string | null
-    previousPageUrl: string | null
-  }
-}
+import type { DtoPaginator } from './types.js'
 
 export default abstract class BaseDto {
   /**
@@ -57,28 +43,5 @@ export default abstract class BaseDto {
         previousPageUrl: paginator.getPreviousPageUrl(),
       },
     }
-  }
-
-  /**
-   * Converts a relation into DTO instance(s).
-   * @param relation - The relation to transform.
-   * @param DtoClass - The DTO class constructor.
-   * @returns The transformed DTO instance(s) or null if no relation is provided.
-   */
-  protected relation<Relation, Dto>(
-    relation: Relation | undefined,
-    DtoClass: new (model: Relation) => Dto
-  ): Dto | null
-  protected relation<Relation, Dto>(
-    relation: Relation[] | undefined,
-    DtoClass: new (model: Relation) => Dto
-  ): Dto[] | null
-  protected relation<Relation, Dto>(
-    relation: Relation[] | Relation | undefined,
-    DtoClass: new (model: Relation) => Dto
-  ): Dto[] | Dto | null {
-    if (!relation) return null
-    if (Array.isArray(relation)) return relation.map((model) => new DtoClass(model))
-    return new DtoClass(relation)
   }
 }
