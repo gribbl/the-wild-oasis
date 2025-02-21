@@ -9,7 +9,7 @@ defineProps<{
 <template>
   <aside class="hidden w-72 shrink-0 border-r border-slate-200 bg-white xl:block">
     <div class="sticky top-0 flex flex-col items-center p-5">
-      <img class="mb-10 h-24" :src="'logo-light.png'" alt="" />
+      <img class="mb-10 h-24" :src="'/logo-light.png'" alt="" />
       <nav class="flex flex-col gap-3 self-stretch">
         <Link
           v-for="link in links"

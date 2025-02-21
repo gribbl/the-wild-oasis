@@ -25,11 +25,10 @@ export default class extends BaseSchema {
       table.float('extras_price')
       table.string('status')
       table.boolean('has_breakfast')
-      table.boolean('is_paid')
       table.text('observations')
 
-      table.date('start_date')
-      table.date('end_date')
+      table.timestamp('start_date')
+      table.timestamp('end_date')
       table.timestamp('created_at')
       table.timestamp('updated_at')
     })

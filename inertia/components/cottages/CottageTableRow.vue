@@ -42,11 +42,11 @@ function openEditingDialog(cottage: CottageDto) {
         <DropdownMenuContent align="end">
           <DropdownMenuItem @click="openEditingDialog(cottage)">
             <PencilIcon class="size-4" />
-            <span>Modifier</span>
+            <span class="text-muted-foreground">Modifier</span>
           </DropdownMenuItem>
           <DropdownMenuItem @click="openDeletionDialog(cottage.id)">
             <Trash2Icon class="size-4" />
-            <span>Supprimer</span>
+            <span class="text-muted-foreground">Supprimer</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

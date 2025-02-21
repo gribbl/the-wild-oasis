@@ -30,9 +30,6 @@ export default class Booking extends BaseModel {
   declare hasBreakfast: boolean
 
   @column()
-  declare isPaid: boolean
-
-  @column()
   declare observations: string
 
   @column.dateTime()

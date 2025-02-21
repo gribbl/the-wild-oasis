@@ -3,11 +3,11 @@ import { Link } from '@inertiajs/vue3'
 import {
   CalendarDaysIcon,
   CircleGaugeIcon,
-  HouseIcon,
   LogOutIcon,
   MenuIcon,
   MoonIcon,
   SettingsIcon,
+  TentIcon,
   UserIcon,
   UsersIcon,
 } from 'lucide-vue-next'
@@ -16,8 +16,8 @@ import { VisuallyHidden } from 'radix-vue'
 const links = [
   { name: 'Tableau de bord', icon: CircleGaugeIcon, href: '/dashboard' },
   { name: 'Réservations', icon: CalendarDaysIcon, href: '/bookings' },
-  { name: 'Cottages', icon: HouseIcon, href: '/cottages' },
-  { name: 'Utilisateurs', icon: UsersIcon, href: '/users' },
+  { name: 'Cottages', icon: TentIcon, href: '/cottages' },
+  // { name: 'Utilisateurs', icon: UsersIcon, href: '/users' },
   { name: 'Paramètres', icon: SettingsIcon, href: '/settings' },
 ]
 </script>
@@ -47,7 +47,7 @@ const links = [
               </VisuallyHidden>
             </SheetHeader>
             <div class="grid gap-6 text-lg font-medium">
-              <img class="mb-10 h-24 justify-self-center" :src="'logo-light.png'" alt="" />
+              <img class="mb-10 h-24 justify-self-center" :src="'/logo-light.png'" alt="" />
               <nav class="flex flex-col gap-3 self-stretch">
                 <SheetClose v-for="link in links" :key="link.name" as-child>
                   <Link

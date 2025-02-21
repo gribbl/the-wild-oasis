@@ -8,7 +8,7 @@ export default class extends BaseSchema {
       table.increments('id')
       table.string('name').notNullable()
       table.integer('capacity').notNullable()
-      table.integer('price').notNullable()
+      table.float('price').notNullable()
       table.float('discount').notNullable().defaultTo(0)
       table.text('description').notNullable()
       table.string('image_filename').notNullable()

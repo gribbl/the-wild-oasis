@@ -4,7 +4,7 @@ defineProps<{ bookings: any[] }>()
 
 <template>
   <div
-    class="mb-5 min-w-full overflow-x-auto scroll-smooth rounded-md border border-slate-200 bg-white p-4"
+    class="mb-5 min-w-full overflow-x-auto scroll-smooth rounded-md border border-muted-foreground/10 bg-background p-4"
   >
     <Table v-if="bookings.length" class="min-w-full">
       <TableHeader>

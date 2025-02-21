@@ -2,8 +2,7 @@ import Booking from '#models/booking'
 import { bookingFilterValidator } from '#validators/booking'
 import { inject } from '@adonisjs/core'
 import { HttpContext } from '@adonisjs/core/http'
-import { Infer } from '@vinejs/vine/types'
-import db from '@adonisjs/lucid/services/db'
+import type { Infer } from '@vinejs/vine/types'
 
 @inject()
 export class BookingService {

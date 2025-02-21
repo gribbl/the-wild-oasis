@@ -5,14 +5,16 @@ import { GuestFactory } from './guest_factory.js'
 
 export const BookingFactory = factory
   .define(Booking, async ({ faker }) => {
-    const startDate = faker.date.soon()
+    const startDate = faker.date.soon({ days: 30 })
+    startDate.setHours(14, 0, 0, 0)
 
     const endDate = faker.date.between({
-      from: DateTime.fromJSDate(startDate).plus({ days: 1 }).toISODate()!,
+      from: DateTime.fromJSDate(startDate).plus({ days: 1 }).toISO()!,
       to: DateTime.fromJSDate(startDate)
         .plus({ days: Math.floor(Math.random() * 20) + 2 })
-        .toISODate()!,
+        .toISO()!,
     })
+    endDate.setHours(10, 0, 0, 0)
 
     return {
       nights: faker.number.int({ min: 1, max: 30 }),
@@ -21,7 +23,6 @@ export const BookingFactory = factory
       status: 'unconfirmed',
       observations: faker.lorem.paragraph(),
       hasBreakfast: faker.datatype.boolean(),
-      isPaid: faker.datatype.boolean(),
       startDate: DateTime.fromJSDate(startDate),
       endDate: DateTime.fromJSDate(endDate),
     }

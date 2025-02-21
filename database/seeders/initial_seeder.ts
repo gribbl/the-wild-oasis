@@ -29,62 +29,62 @@ export default class extends BaseSeeder {
       {
         name: '001',
         capacity: 2,
-        price: 250,
+        price: 249.95,
         description: 'A cozy cabin for two',
-        imageFilename: 'cabin-001.jpg',
+        imageFilename: 'cottage-001.jpg',
       },
       {
         name: '002',
         capacity: 2,
-        price: 350,
+        price: 349.95,
         discount: 0.08,
         description: 'A spacious cabin for two',
-        imageFilename: 'cabin-002.jpg',
+        imageFilename: 'cottage-002.jpg',
       },
       {
         name: '003',
         capacity: 4,
-        price: 500,
+        price: 499.95,
         discount: 0.05,
         description: 'A cabin for a family of four',
-        imageFilename: 'cabin-003.jpg',
+        imageFilename: 'cottage-003.jpg',
       },
       {
         name: '004',
         capacity: 4,
-        price: 750,
+        price: 749.95,
         description: 'A cabin for a group of four',
-        imageFilename: 'cabin-004.jpg',
+        imageFilename: 'cottage-004.jpg',
       },
       {
         name: '005',
         capacity: 6,
-        price: 1000,
+        price: 999.95,
         discount: 0.1,
         description: 'A cabin for a group of six',
-        imageFilename: 'cabin-005.jpg',
+        imageFilename: 'cottage-005.jpg',
       },
       {
         name: '006',
         capacity: 6,
-        price: 1500,
+        price: 1499.95,
         description: 'A cabin for a group of six',
-        imageFilename: 'cabin-006.jpg',
+        imageFilename: 'cottage-006.jpg',
       },
       {
         name: '007',
         capacity: 8,
-        price: 2000,
+        price: 1999.95,
         discount: 0.09,
         description: 'A cabin for a group of eight',
-        imageFilename: 'cabin-007.jpg',
+        imageFilename: 'cottage-007.jpg',
       },
       {
         name: '008',
         capacity: 10,
-        price: 2500,
+        price: 2499.95,
         description: 'A cabin for a group of ten',
-        imageFilename: 'cabin-008.jpg',
+        imageFilename: 'cottage-008.jpg',
       },
     ])
 
@@ -92,11 +92,11 @@ export default class extends BaseSeeder {
 
     const guests = await GuestFactory.createMany(10)
 
-    for (const guest of guests) {
-      await BookingFactory.merge({
-        cottageId: cottagesIds[Math.floor(Math.random() * cottagesIds.length)],
-        guestId: guest.id,
-      }).create()
-    }
+    const guestsIds = guests.map((guest) => guest.id)
+
+    await BookingFactory.tap((row) => {
+      row.cottageId = cottagesIds[Math.floor(Math.random() * cottagesIds.length)]
+      row.guestId = guestsIds[Math.floor(Math.random() * guestsIds.length)]
+    }).createMany(20)
   }
 }

@@ -23,18 +23,21 @@ function toggleFilter(value: string | string[]) {
 
 <template>
   <div class="flex flex-col gap-3 sm:flex-row sm:self-end md:self-auto">
-    <ClientOnly>
-      <ToggleGroup :model-value="filter" type="single" @update:model-value="toggleFilter">
-        <ToggleGroupItem
-          v-for="filter in filters"
-          class="flex-1 text-xs uppercase hover:text-foreground data-[state=off]:bg-muted-foreground/10 data-[state=on]:bg-primary data-[state=off]:text-muted-foreground data-[state=on]:text-background data-[state=off]:hover:bg-muted-foreground/15 sm:flex-auto"
-          :value="filter.value"
-          aria-label="Toggle bold"
-        >
-          {{ filter.label }}
-        </ToggleGroupItem>
-      </ToggleGroup>
-    </ClientOnly>
+    <ToggleGroup
+      :model-value="filter"
+      type="single"
+      data-allow-mismatch="attribute"
+      @update:model-value="toggleFilter"
+    >
+      <ToggleGroupItem
+        v-for="filter in filters"
+        class="flex-1 text-xs uppercase hover:text-foreground data-[state=off]:bg-muted-foreground/10 data-[state=on]:bg-primary data-[state=off]:text-muted-foreground data-[state=on]:text-background data-[state=off]:hover:bg-muted-foreground/15 sm:flex-auto"
+        :value="filter.value"
+        aria-label="Toggle bold"
+      >
+        {{ filter.label }}
+      </ToggleGroupItem>
+    </ToggleGroup>
 
     <div class="flex items-center gap-3">
       <Select v-model="sortBy">

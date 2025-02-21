@@ -71,7 +71,7 @@ watch(isEditingDialogOpen, (value) => {
   <div
     class="mb-5 min-w-full overflow-x-auto scroll-smooth rounded-md border border-slate-200 bg-white p-4"
   >
-    <Table class="min-w-full" layout="fixed">
+    <Table v-if="cottages.length" class="min-w-full" layout="fixed">
       <TableHeader>
         <TableRow class="font-bold uppercase">
           <TableHead class="pr-4">Cottage</TableHead>
@@ -91,6 +91,7 @@ watch(isEditingDialogOpen, (value) => {
         />
       </TableBody>
     </Table>
+    <span v-else class="block text-center text-sm text-muted-foreground">Aucun cottage</span>
   </div>
 
   <DestroyCottageModal

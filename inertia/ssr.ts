@@ -1,15 +1,9 @@
 import { createInertiaApp } from '@inertiajs/vue3'
 import { renderToString } from '@vue/server-renderer'
-import dayjs from 'dayjs'
-import 'dayjs/locale/fr'
-import relativeTime from 'dayjs/plugin/relativeTime'
 import { createSSRApp, h, type DefineComponent } from 'vue'
 import AppLayout from './layouts/AppLayout.vue'
 import AuthLayout from './layouts/AuthLayout.vue'
 import DashboardLayout from './layouts/DashboardLayout.vue'
-
-dayjs.extend(relativeTime)
-dayjs.locale('fr')
 
 export default function render(page: any) {
   return createInertiaApp({
