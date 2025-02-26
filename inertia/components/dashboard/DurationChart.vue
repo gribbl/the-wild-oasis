@@ -25,11 +25,9 @@ const data = [
 
 <template>
   <div
-    class="flex flex-col gap-4 overflow-x-auto rounded-md border border-slate-200 bg-background p-4 sm:col-span-2 md:col-span-1 xl:col-span-2"
+    class="flex flex-col gap-4 overflow-x-auto rounded-md border bg-background p-4 sm:col-span-2 md:col-span-1 xl:col-span-2"
   >
-    <span class="mb-5 border-b border-slate-100 pb-5 text-xl font-medium text-slate-600">
-      Durée des séjours
-    </span>
+    <span class="mb-5 border-b pb-5 text-xl font-medium">Durée des séjours</span>
 
     <DonutChart
       class="min-w-full"

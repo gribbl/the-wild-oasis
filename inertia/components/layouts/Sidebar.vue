@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
+import { store } from '~/store'
 
 defineProps<{
   links: { name: string; href: string; icon: any }[]
@@ -7,9 +8,11 @@ defineProps<{
 </script>
 
 <template>
-  <aside class="hidden w-72 shrink-0 border-r border-slate-200 bg-white xl:block">
+  <aside class="hidden w-72 shrink-0 border-r bg-background xl:block">
     <div class="sticky top-0 flex flex-col items-center p-5">
-      <img class="mb-10 h-24" :src="'/logo-light.png'" alt="" />
+      <div class="mb-10 h-24">
+        <img class="h-full" :src="`/logo-${store.appearance}.png`" alt="" />
+      </div>
       <nav class="flex flex-col gap-3 self-stretch">
         <Link
           v-for="link in links"

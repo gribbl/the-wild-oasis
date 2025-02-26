@@ -5,7 +5,7 @@
 import { resolvePageComponent } from '@adonisjs/inertia/helpers'
 import { createInertiaApp } from '@inertiajs/vue3'
 import type { DefineComponent } from 'vue'
-import { createSSRApp, h } from 'vue'
+import { createApp, h } from 'vue'
 import './css/app.css'
 import AppLayout from './layouts/AppLayout.vue'
 import AuthLayout from './layouts/AuthLayout.vue'
@@ -25,7 +25,7 @@ createInertiaApp({
     return resolvedPage
   },
   setup({ el, App, props, plugin }) {
-    createSSRApp({ render: () => h(App, props) })
+    createApp({ render: () => h(App, props) })
       .use(plugin)
       .mount(el)
   },

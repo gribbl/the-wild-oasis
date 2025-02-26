@@ -47,6 +47,7 @@ watch(open, (value) => {
         id="form"
         class="flex flex-1 flex-col gap-4 md:py-4"
         enctype="multipart/form-data"
+        autocomplete="off"
         @submit.prevent="addCottage"
       >
         <div class="flex h-full flex-col gap-4 md:flex-row">

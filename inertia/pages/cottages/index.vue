@@ -15,7 +15,7 @@ const props = defineProps<Props>()
 const filter = ref(props.filters.discount || 'all')
 
 const filters = [
-  { value: 'all', label: 'Tout' },
+  { value: 'all', label: 'Tous' },
   { value: 'no-discount', label: 'Sans remise' },
   { value: 'with-discount', label: 'Avec remise' },
 ]
@@ -55,9 +55,7 @@ const isAddCottageModalOpen = ref(false)
   <Head title="Cottages" />
 
   <div class="mb-10 flex flex-col justify-between gap-5 md:flex-row">
-    <h1 class="text-center text-3xl font-bold tracking-wide text-slate-800 sm:text-left">
-      Cottages
-    </h1>
+    <h1 class="text-center text-3xl font-bold tracking-wide sm:text-left">Cottages</h1>
 
     <CottageFilters
       v-model:filter="filter"

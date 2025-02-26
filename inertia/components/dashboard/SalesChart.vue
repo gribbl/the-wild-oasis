@@ -15,10 +15,10 @@ const data = [
 
 <template>
   <div
-    class="flex min-w-full flex-col gap-4 rounded-md border border-slate-200 bg-background p-4 sm:col-span-2 xl:col-span-4"
+    class="flex min-w-full flex-col gap-4 rounded-md border bg-background p-4 sm:col-span-2 xl:col-span-4"
   >
-    <div class="mb-5 flex items-center justify-between border-b border-slate-100 pb-5">
-      <span class="text-xl font-medium text-slate-600">Revenus</span>
+    <div class="mb-5 flex items-center justify-between border-b pb-5">
+      <span class="text-xl font-medium">Revenus</span>
       <!-- <span class="text-xs font-medium uppercase text-slate-500">
           01 Janvier 2025 &ndash; 26 Janvier 2025
         </span> -->

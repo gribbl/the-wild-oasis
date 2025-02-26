@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BookingsController from '#controllers/bookings_controller'
+import type BookingsController from '#controllers/bookings_controller'
 import type { InferPageProps } from '@adonisjs/inertia/types'
 import { Head, Link, usePage, router } from '@inertiajs/vue3'
 import {
@@ -20,10 +20,10 @@ const props = defineProps<Props>()
 const filter = ref(props.filters.status || 'all')
 
 const filters = [
-  { value: 'all', label: 'Tout' },
-  { value: 'checked-in', label: 'Enregistré' },
-  { value: 'checked-out', label: 'Départ effectué' },
-  { value: 'unconfirmed', label: 'Non confirmé' },
+  { value: 'all', label: 'Toutes' },
+  { value: 'unconfirmed', label: 'Non confirmées' },
+  { value: 'checked-in', label: 'Enregistrées' },
+  { value: 'checked-out', label: 'Terminées' },
 ] as const
 
 const sortBy = ref(props.filters.sortBy || 'date')
@@ -65,9 +65,7 @@ function toggleFilter(value: string | string[]) {
   <Head title="Réservations" />
 
   <div class="mb-10 flex flex-col justify-between gap-5 lg:flex-row">
-    <h1 class="text-center text-3xl font-bold tracking-wide text-slate-800 sm:text-left">
-      Réservations
-    </h1>
+    <h1 class="text-center text-3xl font-bold tracking-wide sm:text-left">Réservations</h1>
 
     <div class="flex flex-col gap-3 sm:flex-row sm:self-end lg:self-auto">
       <ToggleGroup
@@ -78,9 +76,8 @@ function toggleFilter(value: string | string[]) {
       >
         <ToggleGroupItem
           v-for="filter in filters"
-          class="flex-1 text-xs uppercase hover:text-foreground data-[state=off]:bg-muted-foreground/10 data-[state=on]:bg-primary data-[state=off]:text-muted-foreground data-[state=on]:text-background data-[state=off]:hover:bg-muted-foreground/15 sm:flex-auto"
           :value="filter.value"
-          aria-label="Toggle bold"
+          :aria-label="`Afficher ${filter.label.toLowerCase() === 'tout' ? 'toutes les réservations' : 'les réservations ' + filter.label.toLowerCase()}`"
         >
           {{ filter.label }}
         </ToggleGroupItem>
@@ -88,7 +85,7 @@ function toggleFilter(value: string | string[]) {
 
       <div class="flex items-center gap-3">
         <Select v-model="sortBy">
-          <SelectTrigger class="w-[160px] flex-1 bg-white">
+          <SelectTrigger class="w-[160px] flex-1 bg-background">
             <SelectValue placeholder="Trier par" />
           </SelectTrigger>
           <SelectContent>

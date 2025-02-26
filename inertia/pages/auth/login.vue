@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SharedProps } from '@adonisjs/inertia/types'
+import type { SharedProps } from '@adonisjs/inertia/types'
 import { useForm, usePage } from '@inertiajs/vue3'
 import { AlertCircleIcon, LoaderIcon } from 'lucide-vue-next'
 import { computed } from 'vue'
@@ -32,7 +32,7 @@ function submit() {
     Identifiez-vous pour continuer
   </h1>
 
-  <form class="flex flex-col gap-5 self-stretch" @submit.prevent="submit">
+  <form class="flex flex-col gap-5 self-stretch" autocomplete="off" @submit.prevent="submit">
     <Alert v-if="messages.errorsBag?.E_INVALID_CREDENTIALS" class="mb-6" variant="destructive">
       <AlertCircleIcon class="size-4" />
       <AlertTitle>Erreur</AlertTitle>

@@ -1,5 +1,7 @@
 <script setup lang="ts">
-defineProps<{ bookings: any[] }>()
+import type BookingDto from '#dtos/booking'
+
+defineProps<{ bookings: BookingDto[] }>()
 </script>
 
 <template>
@@ -8,7 +10,7 @@ defineProps<{ bookings: any[] }>()
   >
     <Table v-if="bookings.length" class="min-w-full">
       <TableHeader>
-        <TableRow class="font-bold uppercase">
+        <TableRow>
           <TableHead class="pr-4">Cottage</TableHead>
           <TableHead class="px-4">Guest</TableHead>
           <TableHead class="px-4">Dates</TableHead>

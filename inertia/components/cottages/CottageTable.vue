@@ -68,12 +68,10 @@ watch(isEditingDialogOpen, (value) => {
 </script>
 
 <template>
-  <div
-    class="mb-5 min-w-full overflow-x-auto scroll-smooth rounded-md border border-slate-200 bg-white p-4"
-  >
+  <div class="mb-5 min-w-full overflow-x-auto scroll-smooth rounded-md border bg-background p-4">
     <Table v-if="cottages.length" class="min-w-full" layout="fixed">
       <TableHeader>
-        <TableRow class="font-bold uppercase">
+        <TableRow>
           <TableHead class="pr-4">Cottage</TableHead>
           <TableHead class="px-4">Capacité</TableHead>
           <TableHead class="px-4">Prix</TableHead>

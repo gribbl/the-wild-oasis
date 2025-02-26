@@ -38,13 +38,18 @@ function openEditingDialog(cottage: CottageDto) {
     </TableCell>
     <TableCell class="pl-4">
       <DropdownMenu>
-        <DropdownMenuTrigger> <EllipsisVerticalIcon class="size-5" /></DropdownMenuTrigger>
+        <DropdownMenuTrigger aria-label="Afficher les actions pour ce cottage">
+          <EllipsisVerticalIcon class="size-5" />
+        </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem @click="openEditingDialog(cottage)">
+          <DropdownMenuItem aria-label="Modifier ce cottage" @click="openEditingDialog(cottage)">
             <PencilIcon class="size-4" />
             <span class="text-muted-foreground">Modifier</span>
           </DropdownMenuItem>
-          <DropdownMenuItem @click="openDeletionDialog(cottage.id)">
+          <DropdownMenuItem
+            aria-label="Supprimer ce cottage"
+            @click="openDeletionDialog(cottage.id)"
+          >
             <Trash2Icon class="size-4" />
             <span class="text-muted-foreground">Supprimer</span>
           </DropdownMenuItem>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import BookingDto from '#dtos/booking'
+import type BookingDto from '#dtos/booking'
 import { Link, router } from '@inertiajs/vue3'
-import { EllipsisVerticalIcon, EyeIcon } from 'lucide-vue-next'
+import { CheckCheckIcon, CheckIcon, EllipsisVerticalIcon, EyeIcon, XIcon } from 'lucide-vue-next'
 import { DateTime } from 'luxon'
 import { ref, watch } from 'vue'
 
@@ -52,15 +52,35 @@ watch(status, (value) => {
     <TableCell class="whitespace-nowrap px-4">
       <DropdownMenu>
         <DropdownMenuTrigger class="cursor-pointer">
-          <Badge v-if="booking.status === 'unconfirmed'" variant="destructive">Non confirmé</Badge>
-          <Badge v-if="booking.status === 'checked-in'">Enregistré</Badge>
-          <Badge v-if="booking.status === 'checked-out'">Départ effectué</Badge>
+          <Button variant="outline" size="sm">
+            <template v-if="booking.status === 'unconfirmed'">
+              <XIcon class="text-red-500" />
+              <span>Non confirmée</span>
+            </template>
+            <template v-if="booking.status === 'checked-in'">
+              <CheckIcon class="text-emerald-500" />
+              <span>Enregistrée</span>
+            </template>
+            <template v-if="booking.status === 'checked-out'">
+              <CheckCheckIcon class="text-sky-500" />
+              <span>Terminée</span>
+            </template>
+          </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuRadioGroup v-model="status">
-            <DropdownMenuRadioItem value="unconfirmed">Non confirmé</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="checked-in">Enregistré</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="checked-out">Départ effectué</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem class="!text-red-500 hover:!bg-red-500/10" value="unconfirmed">
+              Non confirmée
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem
+              class="!text-emerald-500 hover:!bg-emerald-500/10"
+              value="checked-in"
+            >
+              Enregistrée
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem class="!text-sky-500 hover:!bg-sky-500/10" value="checked-out">
+              Terminée
+            </DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
         </DropdownMenuContent>
       </DropdownMenu>

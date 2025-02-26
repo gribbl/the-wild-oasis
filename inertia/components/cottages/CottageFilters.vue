@@ -31,17 +31,16 @@ function toggleFilter(value: string | string[]) {
     >
       <ToggleGroupItem
         v-for="filter in filters"
-        class="flex-1 text-xs uppercase hover:text-foreground data-[state=off]:bg-muted-foreground/10 data-[state=on]:bg-primary data-[state=off]:text-muted-foreground data-[state=on]:text-background data-[state=off]:hover:bg-muted-foreground/15 sm:flex-auto"
         :value="filter.value"
-        aria-label="Toggle bold"
+        :aria-label="`Afficher ${filter.label.toLowerCase() === 'tout' ? 'tous les cottages' : 'les cottages ' + filter.label.toLowerCase()}`"
       >
         {{ filter.label }}
       </ToggleGroupItem>
     </ToggleGroup>
 
     <div class="flex items-center gap-3">
-      <Select v-model="sortBy">
-        <SelectTrigger class="w-[160px] flex-1 bg-white">
+      <Select id="sortBy" v-model="sortBy">
+        <SelectTrigger class="w-[160px] flex-1 bg-background" aria-label="Trier les cottages">
           <SelectValue placeholder="Trier par" />
         </SelectTrigger>
         <SelectContent>
@@ -52,7 +51,11 @@ function toggleFilter(value: string | string[]) {
         </SelectContent>
       </Select>
 
-      <Button variant="outline" @click="$emit('toggle-sort-order')">
+      <Button
+        variant="outline"
+        aria-label="Trier par ordre croissant/décroissant"
+        @click="$emit('toggle-sort-order')"
+      >
         <ArrowDownNarrowWideIcon v-if="sortOrder === 'asc'" />
         <ArrowDownWideNarrowIcon v-else />
       </Button>

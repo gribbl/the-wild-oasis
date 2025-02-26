@@ -3,7 +3,6 @@ import BookingDto from '#dtos/booking'
 import { Head, Link, router } from '@inertiajs/vue3'
 import {
   ArrowLeftIcon,
-  BadgeEuroIcon,
   ClockIcon,
   CroissantIcon,
   TentIcon,
@@ -50,7 +49,7 @@ watch(status, (value) => {
   <Head :title="`Réservation #${booking.id}`" />
 
   <div class="mb-10 flex flex-col justify-between gap-5 md:flex-row md:items-center">
-    <h1 class="text-3xl font-bold tracking-wide text-slate-800">Réservation #{{ booking.id }}</h1>
+    <h1 class="text-3xl font-bold tracking-wide">Réservation #{{ booking.id }}</h1>
 
     <Button class="self-end" variant="ghost" as-child>
       <Link href="/bookings">
@@ -60,15 +59,9 @@ watch(status, (value) => {
     </Button>
   </div>
 
-  <div
-    class="mb-5 items-center gap-5 overflow-hidden rounded border border-muted-foreground/10 bg-white"
-  >
-    <div
-      class="flex flex-col items-center justify-between gap-5 bg-primary p-5 md:flex-row md:p-10"
-    >
-      <div
-        class="flex flex-col items-center gap-3 text-lg font-bold uppercase text-background md:flex-row"
-      >
+  <div class="mb-5 items-center gap-5 overflow-hidden rounded border bg-background">
+    <div class="flex flex-col items-center justify-between gap-5 border-b p-5 md:flex-row md:p-10">
+      <div class="flex flex-col items-center gap-3 text-lg font-bold uppercase md:flex-row">
         <TentIcon class="size-6" />
 
         <span>cottage {{ booking.cottage!.name }}</span>
@@ -77,7 +70,7 @@ watch(status, (value) => {
           {{ numberOfNights }} nuit{{ numberOfNights > 1 ? 's' : '' }}
         </span>
       </div>
-      <span class="text-background" data-allow-mismatch>{{ dateRange }}</span>
+      <span data-allow-mismatch>{{ dateRange }}</span>
     </div>
 
     <div class="flex flex-col sm:flex-row">
@@ -153,51 +146,50 @@ watch(status, (value) => {
           <DropdownMenu>
             <DropdownMenuTrigger class="cursor-pointer" as-child>
               <Badge :variant="booking.status === 'unconfirmed' ? 'destructive' : 'default'">
-                <span v-if="booking.status === 'unconfirmed'">Non confirmé</span>
-                <span v-if="booking.status === 'checked-in'">Enregistré</span>
-                <span v-if="booking.status === 'checked-out'">Départ effectué</span>
+                <span v-if="booking.status === 'unconfirmed'">Non confirmée</span>
+                <span v-if="booking.status === 'checked-in'">Enregistrée</span>
+                <span v-if="booking.status === 'checked-out'">Terminée</span>
               </Badge>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuRadioGroup v-model="status">
-                <DropdownMenuRadioItem value="unconfirmed">Non confirmé</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="checked-in">Enregistré</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="checked-out">Départ effectué</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="unconfirmed">Non confirmée</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="checked-in">Enregistrée</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="checked-out">Terminée</DropdownMenuRadioItem>
               </DropdownMenuRadioGroup>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
 
-        <div>
-          <div class="flex flex-col gap-3 rounded-t-lg bg-emerald-50 p-5 text-emerald-500">
+        <div class="rounded border">
+          <div class="flex flex-col gap-3 rounded-t-lg p-5 text-muted-foreground">
             <div class="flex items-center justify-between">
               <span>Nuits</span>
-              <span class="font-sono font-semibold">{{ accommodationPrice.toFixed(2) }}</span>
+              <span class="font-sono font-semibold">{{ accommodationPrice.toFixed(2) }} €</span>
             </div>
 
             <div class="flex items-center justify-between">
               <span>Petit-déjeuner</span>
-              <span class="font-sono font-semibold">{{ breakfastPrice }}</span>
+              <span class="font-sono font-semibold">{{ breakfastPrice }} €</span>
             </div>
 
             <div class="flex items-center justify-between">
               <span>Extra</span>
-              <span class="font-sono font-semibold">{{ booking.extrasPrice }}</span>
+              <span class="font-sono font-semibold">{{ booking.extrasPrice }} €</span>
             </div>
 
             <div class="flex items-center justify-between">
               <span>Remise</span>
-              <span class="font-sono font-semibold">{{ discount.toFixed(2) }}</span>
+              <span class="font-sono font-semibold">{{ discount.toFixed(2) }} €</span>
             </div>
           </div>
           <div
-            class="flex items-center justify-between gap-5 rounded-b-lg bg-emerald-100 p-5 text-lg text-emerald-600 md:text-2xl"
+            class="flex items-center justify-between gap-5 rounded-b-lg border-t p-5 text-lg md:text-2xl"
           >
-            <span class="font-black uppercase">Total</span>
+            <span class="font-bold">Total</span>
 
             <div class="flex items-center gap-3">
-              <span class="font-sono font-bold">{{ total }}</span>
-              <BadgeEuroIcon class="size-6 md:size-10" />
+              <span class="font-sono font-bold">{{ total }} €</span>
             </div>
           </div>
         </div>
