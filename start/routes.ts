@@ -13,9 +13,11 @@ import { middleware } from './kernel.js'
 const SessionController = () => import('#controllers/auth/session_controller')
 const CottagesController = () => import('#controllers/cottages_controller')
 const BookingsController = () => import('#controllers/bookings_controller')
+const DashboardController = () => import('#controllers/dashboard_controller')
 
 router.on('/').redirect('/dashboard').use(middleware.auth()).as('home')
-router.on('/dashboard').renderInertia('dashboard').use(middleware.auth()).as('dashboard')
+
+router.get('/dashboard', [DashboardController]).use(middleware.auth()).as('dashboard')
 
 router.get('/login', [SessionController, 'create']).as('login').use(middleware.guest())
 router.post('/login', [SessionController, 'store']).as('store').use(middleware.guest())

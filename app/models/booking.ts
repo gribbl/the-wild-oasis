@@ -1,8 +1,9 @@
-import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
+import { BaseModel, belongsTo, column, computed } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import { DateTime } from 'luxon'
 import Cottage from './cottage.js'
 import Guest from './guest.js'
+import { breakfastPrice } from '#config/settings'
 
 export default class Booking extends BaseModel {
   @column({ isPrimary: true })
@@ -15,9 +16,6 @@ export default class Booking extends BaseModel {
   declare guestId: number
 
   @column()
-  declare nights: number
-
-  @column()
   declare guests: number
 
   @column()
@@ -28,9 +26,6 @@ export default class Booking extends BaseModel {
 
   @column()
   declare hasBreakfast: boolean
-
-  @column()
-  declare observations: string
 
   @column.dateTime()
   declare startDate: DateTime
@@ -49,4 +44,35 @@ export default class Booking extends BaseModel {
 
   @belongsTo(() => Guest)
   declare guest: BelongsTo<typeof Guest>
+
+  @computed()
+  get nights() {
+    const startDate = this.startDate
+    const endDate = this.endDate
+
+    return Math.ceil(Math.abs(startDate.diff(endDate, 'day').days))
+  }
+
+  @computed()
+  get discount() {
+    if (!this.cottage) return null
+    return this.cottage.price * this.cottage.discount
+  }
+
+  @computed()
+  get accommodationPrice() {
+    if (!this.cottage) return null
+    return this.cottage.price * this.nights
+  }
+
+  @computed()
+  get breakfastPrice() {
+    return this.hasBreakfast ? this.nights * breakfastPrice : 0
+  }
+
+  @computed()
+  get total() {
+    if (this.accommodationPrice === null || this.discount === null) return null
+    return this.accommodationPrice - this.discount + this.extrasPrice + this.breakfastPrice
+  }
 }

@@ -17,11 +17,9 @@ export const BookingFactory = factory
     endDate.setHours(10, 0, 0, 0)
 
     return {
-      nights: faker.number.int({ min: 1, max: 30 }),
       guests: faker.number.int({ min: 2, max: 12 }),
       extrasPrice: faker.number.float({ min: 50, max: 500, fractionDigits: 2 }),
       status: 'unconfirmed',
-      observations: faker.lorem.paragraph(),
       hasBreakfast: faker.datatype.boolean(),
       startDate: DateTime.fromJSDate(startDate),
       endDate: DateTime.fromJSDate(endDate),
