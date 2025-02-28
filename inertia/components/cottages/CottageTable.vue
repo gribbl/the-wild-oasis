@@ -31,7 +31,7 @@ const editForm = useForm({
   name: '',
   capacity: [2],
   price: 250,
-  discountPercentage: 0.0,
+  discount: 0.0,
   description: '',
   image: null,
 })
@@ -45,7 +45,7 @@ function openEditingDialog(cottage: CottageDto) {
   editForm.name = cottage.name
   editForm.capacity = [cottage.capacity]
   editForm.price = cottage.price
-  editForm.discountPercentage = cottage.discount
+  editForm.discount = cottage.discount
   editForm.description = cottage.description
 }
 
@@ -68,15 +68,17 @@ watch(isEditingDialogOpen, (value) => {
 </script>
 
 <template>
-  <div class="mb-5 min-w-full overflow-x-auto scroll-smooth rounded-md border bg-background p-4">
+  <div
+    class="mb-5 min-w-full overflow-x-auto scroll-smooth rounded-md border border-muted-foreground/15 bg-background"
+  >
     <Table v-if="cottages.length" class="min-w-full" layout="fixed">
       <TableHeader>
         <TableRow>
-          <TableHead class="pr-4">Cottage</TableHead>
+          <TableHead class="px-4">Cottage</TableHead>
           <TableHead class="px-4">Capacité</TableHead>
           <TableHead class="px-4">Prix</TableHead>
           <TableHead class="px-4">Remise</TableHead>
-          <TableHead class="pl-4"></TableHead>
+          <TableHead class="px-4"></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

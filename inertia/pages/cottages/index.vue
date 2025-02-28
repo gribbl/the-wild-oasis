@@ -12,12 +12,12 @@ type Props = {
 
 const props = defineProps<Props>()
 
-const filter = ref(props.filters.discount || 'all')
+const filter = ref(props.filters.discountFilter || 'all')
 
 const filters = [
-  { value: 'all', label: 'Tous' },
-  { value: 'no-discount', label: 'Sans remise' },
-  { value: 'with-discount', label: 'Avec remise' },
+  { value: 'all', label: 'Tous les cottages' },
+  { value: 'no-discount', label: 'Les cottages sans remise' },
+  { value: 'with-discount', label: 'Les cottages avec remise' },
 ]
 
 const sortBy = ref(props.filters.sortBy || 'name')
@@ -37,7 +37,7 @@ function toggleSortOrder() {
 const page = usePage()
 
 watch(filter, (value) => {
-  router.get(page.url, { discount: value }, { preserveState: true, preserveScroll: true })
+  router.get(page.url, { discountFilter: value }, { preserveState: true, preserveScroll: true })
 })
 
 watch(sortBy, (value) => {

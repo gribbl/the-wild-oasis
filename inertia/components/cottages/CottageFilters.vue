@@ -13,30 +13,21 @@ const sortOrder = defineModel<string>('sortOrder')
 defineProps<Props>()
 
 defineEmits(['toggle-sort-order'])
-
-function toggleFilter(value: string | string[]) {
-  if (typeof value === 'string') {
-    filter.value = value
-  }
-}
 </script>
 
 <template>
   <div class="flex flex-col gap-3 sm:flex-row sm:self-end md:self-auto">
-    <ToggleGroup
-      :model-value="filter"
-      type="single"
-      data-allow-mismatch="attribute"
-      @update:model-value="toggleFilter"
-    >
-      <ToggleGroupItem
-        v-for="filter in filters"
-        :value="filter.value"
-        :aria-label="`Afficher ${filter.label.toLowerCase() === 'tout' ? 'tous les cottages' : 'les cottages ' + filter.label.toLowerCase()}`"
-      >
-        {{ filter.label }}
-      </ToggleGroupItem>
-    </ToggleGroup>
+    <Select v-model="filter">
+      <SelectTrigger class="flex-1 bg-background">
+        <SelectValue class="pr-2" placeholder="Afficher" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectLabel>Afficher</SelectLabel>
+        <SelectItem v-for="filter in filters" :value="filter.value">
+          {{ filter.label }}
+        </SelectItem>
+      </SelectContent>
+    </Select>
 
     <div class="flex items-center gap-3">
       <Select id="sortBy" v-model="sortBy">

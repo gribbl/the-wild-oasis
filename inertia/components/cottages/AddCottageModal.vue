@@ -11,7 +11,7 @@ const form = useForm({
   name: '',
   capacity: [2],
   price: 250,
-  discountPercentage: 0.0,
+  discount: 0.0,
   description: '',
   image: null,
 })
@@ -31,7 +31,7 @@ watch(open, (value) => {
 </script>
 
 <template>
-  <Dialog v-model:open="open" class="z-50">
+  <Dialog v-model:open="open">
     <DialogContent
       class="flex h-screen max-w-screen-sm flex-col sm:grid sm:h-auto sm:flex-none lg:max-w-screen-md"
     >
@@ -96,7 +96,7 @@ watch(open, (value) => {
 
             <NumberField
               id="discount"
-              v-model="form.discountPercentage"
+              v-model="form.discount"
               :disabled="form.processing"
               :format-options="{
                 style: 'percent',
@@ -107,8 +107,8 @@ watch(open, (value) => {
             >
               <div class="flex items-center justify-between gap-3">
                 <Label for="discount">Remise</Label>
-                <span v-if="form.errors.discountPercentage" class="text-xs text-red-500 sm:hidden">
-                  {{ form.errors.discountPercentage }}
+                <span v-if="form.errors.discount" class="text-xs text-red-500 sm:hidden">
+                  {{ form.errors.discount }}
                 </span>
               </div>
               <NumberFieldContent>
@@ -116,11 +116,8 @@ watch(open, (value) => {
                 <NumberFieldInput />
                 <NumberFieldIncrement />
               </NumberFieldContent>
-              <span
-                v-if="form.errors.discountPercentage"
-                class="hidden text-xs text-red-500 sm:block"
-              >
-                {{ form.errors.discountPercentage }}
+              <span v-if="form.errors.discount" class="hidden text-xs text-red-500 sm:block">
+                {{ form.errors.discount }}
               </span>
             </NumberField>
 

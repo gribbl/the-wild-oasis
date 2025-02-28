@@ -22,6 +22,6 @@ function getToastMessage(toast: Toast) {
 </script>
 
 <template>
-  <Sonner class="pointer-events-auto z-40" />
+  <Sonner class="pointer-events-auto" />
   <slot />
 </template>
