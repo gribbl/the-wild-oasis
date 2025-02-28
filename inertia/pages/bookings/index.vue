@@ -20,10 +20,10 @@ const props = defineProps<Props>()
 const filter = ref(props.filters.status || 'all')
 
 const filters = [
-  { value: 'all', label: 'Toutes' },
-  { value: 'unconfirmed', label: 'Non confirmées' },
-  { value: 'checked-in', label: 'Enregistrées' },
-  { value: 'checked-out', label: 'Terminées' },
+  { value: 'all', label: 'Toutes les réservations' },
+  { value: 'unconfirmed', label: 'Les réservations non confirmées' },
+  { value: 'checked-in', label: 'Les réservations enregistrées' },
+  { value: 'checked-out', label: 'Les réservations terminées' },
 ] as const
 
 const sortBy = ref(props.filters.sortBy || 'date')
@@ -53,35 +53,26 @@ watch(sortBy, (value) => {
 watch(sortOrder, (value) => {
   router.get(page.url, { sortOrder: value }, { preserveState: true, preserveScroll: true })
 })
-
-function toggleFilter(value: string | string[]) {
-  if (typeof value === 'string') {
-    filter.value = value as (typeof filters)[number]['value']
-  }
-}
 </script>
 
 <template>
   <Head title="Réservations" />
 
-  <div class="mb-10 flex flex-col justify-between gap-5 lg:flex-row">
+  <div class="mb-10 flex flex-col justify-between gap-5 md:flex-row">
     <h1 class="text-center text-3xl font-bold tracking-wide sm:text-left">Réservations</h1>
 
     <div class="flex flex-col gap-3 sm:flex-row sm:self-end lg:self-auto">
-      <ToggleGroup
-        :model-value="filter"
-        type="single"
-        data-allow-mismatch="attribute"
-        @update:model-value="toggleFilter"
-      >
-        <ToggleGroupItem
-          v-for="filter in filters"
-          :value="filter.value"
-          :aria-label="`Afficher ${filter.label.toLowerCase() === 'tout' ? 'toutes les réservations' : 'les réservations ' + filter.label.toLowerCase()}`"
-        >
-          {{ filter.label }}
-        </ToggleGroupItem>
-      </ToggleGroup>
+      <Select v-model="filter">
+        <SelectTrigger class="flex-1 bg-background">
+          <SelectValue class="pr-2" placeholder="Afficher" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectLabel>Afficher</SelectLabel>
+          <SelectItem v-for="filter in filters" :value="filter.value">
+            {{ filter.label }}
+          </SelectItem>
+        </SelectContent>
+      </Select>
 
       <div class="flex items-center gap-3">
         <Select v-model="sortBy">

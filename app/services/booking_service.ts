@@ -4,14 +4,20 @@ import { inject } from '@adonisjs/core'
 import { HttpContext } from '@adonisjs/core/http'
 import type { Infer } from '@vinejs/vine/types'
 
+const RESULTS_PER_PAGE = 10
+
 @inject()
 export class BookingService {
-  static RESULTS_PER_PAGE = 10
-
   constructor(protected ctx: HttpContext) {}
 
+  /**
+   * Retrieves all bookings with filtering, sorting, and pagination.
+   * @param filters Validated request query parameters.
+   * @returns Paginated list of bookings.
+   */
   async getBookings(filters: Infer<typeof bookingFilterValidator>) {
     const { page = 1, status = 'all', sortBy = 'date', sortOrder = 'asc' } = filters
+
     let query = Booking.query()
       .join('cottages', 'cottages.id', 'cottage_id')
       .join('guests', 'guests.id', 'guest_id')
@@ -19,19 +25,47 @@ export class BookingService {
       .preload('cottage')
       .preload('guest')
 
-    if (sortBy === 'date') query = query.orderBy('startDate', sortOrder)
-    else if (sortBy === 'cottage') query = query.orderBy('cottages.name', sortOrder)
+    if (sortBy === 'date') query = query.orderBy('startDate', sortOrder).orderBy('guests.fullname')
+    else if (sortBy === 'cottage')
+      query = query.orderBy('cottages.name', sortOrder).orderBy('startDate')
     else if (sortBy === 'guest') query = query.orderBy('guests.fullname', sortOrder)
 
     if (status === 'checked-in') query.where('status', 'checked-in')
     else if (status === 'checked-out') query.where('status', 'checked-out')
     else if (status === 'unconfirmed') query.where('status', 'unconfirmed')
 
-    const bookings = await query.paginate(page, BookingService.RESULTS_PER_PAGE)
+    const bookings = await query.paginate(page, RESULTS_PER_PAGE)
 
     bookings.baseUrl(this.ctx.request.url())
     bookings.queryString(this.ctx.request.qs())
 
     return bookings
+  }
+
+  /**
+   * Retrieves a single booking by its ID, including associated cottage and guest data.
+   *
+   * @param id - The ID of the booking to retrieve.
+   * @returns The booking if found.
+   */
+  getBooking(id: number) {
+    return Booking.query().preload('cottage').preload('guest').where({ id }).firstOrFail()
+  }
+
+  /**
+   * Updates the status of a booking by its ID.
+   *
+   * @param id - The ID of the booking to update.
+   * @param status - The new status to assign to the booking.
+   * @returns The updated booking.
+   */
+  async updateStatus(id: number, status: string) {
+    const booking = await Booking.findOrFail(id)
+
+    booking.status = status
+
+    await booking.save()
+
+    return booking
   }
 }

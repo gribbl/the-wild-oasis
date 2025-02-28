@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import type BookingDto from '#dtos/booking'
 import { Link, router } from '@inertiajs/vue3'
-import { CheckCheckIcon, CheckIcon, EllipsisVerticalIcon, EyeIcon, XIcon } from 'lucide-vue-next'
+import { EllipsisVerticalIcon, EyeIcon } from 'lucide-vue-next'
 import { DateTime } from 'luxon'
 import { ref, watch } from 'vue'
+import type BookingDto from '#dtos/booking'
+import { formatCurrency } from '../../utils'
 
 const { booking } = defineProps<{ booking: BookingDto }>()
 
@@ -15,9 +16,7 @@ const startAtFormatted = startAt.toFormat('dd LLL yyyy', { locale: 'fr' })
 const endAtFormatted = endAt.toFormat('dd LLL yyyy', { locale: 'fr' })
 const dateRange = `${startAtFormatted} - ${endAtFormatted}`
 
-const numberOfNights = Math.ceil(endAt.diff(startAt, 'day').days)
-
-const total = `${(booking.cottage!.price - booking.cottage!.price * booking.cottage!.discount + booking.extrasPrice).toFixed(2)} €`
+const nights = `${booking.nights} nuit${booking.nights > 1 ? 's' : ''}`
 
 const status = ref(booking.status)
 
@@ -28,7 +27,7 @@ watch(status, (value) => {
 
 <template>
   <TableRow>
-    <TableCell class="whitespace-nowrap pr-4 font-medium">
+    <TableCell class="whitespace-nowrap px-4 font-medium">
       {{ booking.cottage!.name }}
     </TableCell>
     <TableCell>
@@ -41,8 +40,8 @@ watch(status, (value) => {
       <div class="flex flex-col">
         <div class="flex items-center gap-1 font-medium">
           <span data-allow-mismatch>{{ relativeTime }}</span>
-          <span>&rarr;</span>
-          <span>{{ numberOfNights }} nuit{{ numberOfNights > 1 ? 's' : '' }}</span>
+          <span>&ndash;</span>
+          <span>{{ nights }}</span>
         </div>
         <div class="text-muted-foreground" data-allow-mismatch>
           {{ dateRange }}
@@ -50,60 +49,23 @@ watch(status, (value) => {
       </div>
     </TableCell>
     <TableCell class="whitespace-nowrap px-4">
-      <DropdownMenu>
-        <DropdownMenuTrigger class="cursor-pointer">
-          <Button variant="outline" size="sm">
-            <template v-if="booking.status === 'unconfirmed'">
-              <XIcon class="text-red-500" />
-              <span>Non confirmée</span>
-            </template>
-            <template v-if="booking.status === 'checked-in'">
-              <CheckIcon class="text-emerald-500" />
-              <span>Enregistrée</span>
-            </template>
-            <template v-if="booking.status === 'checked-out'">
-              <CheckCheckIcon class="text-sky-500" />
-              <span>Terminée</span>
-            </template>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuRadioGroup v-model="status">
-            <DropdownMenuRadioItem class="!text-red-500 hover:!bg-red-500/10" value="unconfirmed">
-              Non confirmée
-            </DropdownMenuRadioItem>
-            <DropdownMenuRadioItem
-              class="!text-emerald-500 hover:!bg-emerald-500/10"
-              value="checked-in"
-            >
-              Enregistrée
-            </DropdownMenuRadioItem>
-            <DropdownMenuRadioItem class="!text-sky-500 hover:!bg-sky-500/10" value="checked-out">
-              Terminée
-            </DropdownMenuRadioItem>
-          </DropdownMenuRadioGroup>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <BookingStatusSelect v-model="status" />
     </TableCell>
     <TableCell class="whitespace-nowrap px-4 font-sono font-medium text-primary">
-      {{ total }}
+      {{ formatCurrency(booking.total!) }}
     </TableCell>
-    <TableCell class="whitespace-nowrap pl-4">
+    <TableCell class="whitespace-nowrap px-4 text-right">
       <DropdownMenu>
-        <DropdownMenuTrigger>
+        <DropdownMenuTrigger class="px-4">
           <EllipsisVerticalIcon class="size-5" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem as-child>
             <Link :href="`/bookings/${booking.id}`">
               <EyeIcon class="size-4" />
-              <span class="text-muted-foreground">Voir les détails</span>
+              <span>Voir les détails</span>
             </Link>
           </DropdownMenuItem>
-          <!-- <DropdownMenuItem>
-            <Trash2Icon class="size-4" />
-            <span>Supprimer</span>
-          </DropdownMenuItem> -->
         </DropdownMenuContent>
       </DropdownMenu>
     </TableCell>

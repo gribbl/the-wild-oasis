@@ -13,6 +13,7 @@ import {
 } from 'lucide-vue-next'
 import { DateTime } from 'luxon'
 import { ref, watch } from 'vue'
+import { formatCurrency } from '~/utils'
 
 type Props = {
   booking: BookingDto
@@ -31,12 +32,7 @@ const startAtFormatted = startAt.toFormat('dd LLL yyyy', { locale: 'fr' })
 const endAtFormatted = endAt.toFormat('dd LLL yyyy', { locale: 'fr' })
 const dateRange = `${startAtFormatted} - ${endAtFormatted}`
 
-const numberOfNights = Math.ceil(endAt.diff(startAt, 'day').days)
-
-const accommodationPrice = booking.cottage!.price * numberOfNights
-const breakfastPrice = booking.hasBreakfast ? numberOfNights * 15 : 0
-const discount = booking.cottage!.price * booking.cottage!.discount
-const total = (accommodationPrice - discount + booking.extrasPrice + breakfastPrice).toFixed(2)
+const nights = `${booking.nights} nuit${booking.nights > 1 ? 's' : ''}`
 
 const status = ref(booking.status)
 
@@ -51,7 +47,7 @@ watch(status, (value) => {
   <div class="mb-10 flex flex-col justify-between gap-5 md:flex-row md:items-center">
     <h1 class="text-3xl font-bold tracking-wide">Réservation #{{ booking.id }}</h1>
 
-    <Button class="self-end" variant="ghost" as-child>
+    <Button class="self-end" variant="outline" as-child>
       <Link href="/bookings">
         <ArrowLeftIcon class="size-5" />
         <span>Revenir aux réservations</span>
@@ -65,9 +61,9 @@ watch(status, (value) => {
         <TentIcon class="size-6" />
 
         <span>cottage {{ booking.cottage!.name }}</span>
-        <span> &ndash; </span>
+        <span>&ndash;</span>
         <span data-allow-mismatch>
-          {{ numberOfNights }} nuit{{ numberOfNights > 1 ? 's' : '' }}
+          {{ nights }}
         </span>
       </div>
       <span data-allow-mismatch>{{ dateRange }}</span>
@@ -109,8 +105,8 @@ watch(status, (value) => {
 
         <div class="flex flex-col justify-between gap-5 md:flex-row md:items-center">
           <div class="flex items-center gap-3">
-            <Users2Icon class="size-6 text-primary" />
-            <span class="text-lg font-medium">Nombre de personnes</span>
+            <Users2Icon class="size-6" />
+            <span class="text-lg">Nombre de personnes</span>
           </div>
           <span class="font-sono text-muted-foreground">
             {{ booking.guests }}
@@ -119,8 +115,8 @@ watch(status, (value) => {
 
         <div class="flex flex-col justify-between gap-5 md:flex-row md:items-center">
           <div class="flex items-center gap-3">
-            <CroissantIcon class="size-6 text-primary" />
-            <span class="text-lg font-medium">Petit-déjeuner</span>
+            <CroissantIcon class="size-6" />
+            <span class="text-lg">Petit-déjeuner</span>
           </div>
           <span class="text-muted-foreground">
             {{ booking.hasBreakfast ? 'Oui' : 'Non' }}
@@ -129,8 +125,8 @@ watch(status, (value) => {
 
         <div class="flex flex-col justify-between gap-5 md:flex-row md:items-center">
           <div class="flex items-center gap-3">
-            <ClockIcon class="size-6 text-primary" />
-            <span class="text-lg font-medium">Réservé le</span>
+            <ClockIcon class="size-6" />
+            <span class="text-lg">Réservé le</span>
           </div>
           <span class="text-muted-foreground" data-allow-mismatch>
             {{ createdAt }}
@@ -139,94 +135,46 @@ watch(status, (value) => {
 
         <div class="flex flex-col items-start gap-5 md:flex-row md:items-center md:justify-between">
           <div class="flex items-center gap-3">
-            <ClipboardIcon class="size-6 text-primary" />
-            <span class="text-lg font-medium">Status</span>
+            <ClipboardIcon class="size-6" />
+            <span class="text-lg">Status</span>
           </div>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger class="cursor-pointer" as-child>
-              <Badge :variant="booking.status === 'unconfirmed' ? 'destructive' : 'default'">
-                <span v-if="booking.status === 'unconfirmed'">Non confirmée</span>
-                <span v-if="booking.status === 'checked-in'">Enregistrée</span>
-                <span v-if="booking.status === 'checked-out'">Terminée</span>
-              </Badge>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuRadioGroup v-model="status">
-                <DropdownMenuRadioItem value="unconfirmed">Non confirmée</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="checked-in">Enregistrée</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="checked-out">Terminée</DropdownMenuRadioItem>
-              </DropdownMenuRadioGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <BookingStatusSelect v-model="status" />
         </div>
 
         <div class="rounded border">
           <div class="flex flex-col gap-3 rounded-t-lg p-5 text-muted-foreground">
             <div class="flex items-center justify-between">
               <span>Nuits</span>
-              <span class="font-sono font-semibold">{{ accommodationPrice.toFixed(2) }} €</span>
+              <span class="font-sono">{{ formatCurrency(booking.accommodationPrice!) }}</span>
             </div>
 
             <div class="flex items-center justify-between">
               <span>Petit-déjeuner</span>
-              <span class="font-sono font-semibold">{{ breakfastPrice }} €</span>
+              <span class="font-sono">{{ formatCurrency(booking.breakfastPrice!) }}</span>
             </div>
 
             <div class="flex items-center justify-between">
               <span>Extra</span>
-              <span class="font-sono font-semibold">{{ booking.extrasPrice }} €</span>
+              <span class="font-sono">{{ formatCurrency(booking.extrasPrice) }}</span>
             </div>
 
             <div class="flex items-center justify-between">
               <span>Remise</span>
-              <span class="font-sono font-semibold">{{ discount.toFixed(2) }} €</span>
+              <span class="font-sono">{{ formatCurrency(booking.discount!) }}</span>
             </div>
           </div>
           <div
-            class="flex items-center justify-between gap-5 rounded-b-lg border-t p-5 text-lg md:text-2xl"
+            class="flex items-center justify-between gap-5 rounded-b-lg border-t bg-muted/15 p-5 text-lg md:text-2xl"
           >
             <span class="font-bold">Total</span>
 
             <div class="flex items-center gap-3">
-              <span class="font-sono font-bold">{{ total }} €</span>
+              <span class="font-sono font-bold">{{ formatCurrency(booking.total!) }}</span>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="flex items-center justify-end gap-3">
-    <Button v-if="booking.status === 'unconfirmed'" size="lg" as-child>
-      <Link as="button" method="patch" :href="`/bookings/${booking.id}/checked-in`" preserve-scroll>
-        Confirmer l'enregistrement
-      </Link>
-    </Button>
-    <Button v-if="booking.status === 'checked-in'" size="lg" variant="destructive" as-child>
-      <Link as="button" method="patch" :href="`/bookings/${booking.id}/checked-in`" preserve-scroll>
-        Annuler l'enregistrement
-      </Link>
-    </Button>
-    <Button v-if="booking.status === 'checked-in'" size="lg" as-child>
-      <Link
-        as="button"
-        method="patch"
-        :href="`/bookings/${booking.id}/checked-out`"
-        preserve-scroll
-      >
-        Confirmer le départ
-      </Link>
-    </Button>
-    <Button v-if="booking.status === 'checked-out'" size="lg" variant="destructive" as-child>
-      <Link
-        as="button"
-        method="patch"
-        :href="`/bookings/${booking.id}/checked-out`"
-        preserve-scroll
-      >
-        Annuler le départ
-      </Link>
-    </Button>
   </div>
 </template>

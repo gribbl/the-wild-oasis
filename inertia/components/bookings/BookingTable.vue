@@ -6,17 +6,17 @@ defineProps<{ bookings: BookingDto[] }>()
 
 <template>
   <div
-    class="mb-5 min-w-full overflow-x-auto scroll-smooth rounded-md border border-muted-foreground/10 bg-background p-4"
+    class="mb-5 min-w-full overflow-hidden overflow-x-auto scroll-smooth rounded-md border border-muted-foreground/15 bg-background"
   >
     <Table v-if="bookings.length" class="min-w-full">
       <TableHeader>
         <TableRow>
-          <TableHead class="pr-4">Cottage</TableHead>
-          <TableHead class="px-4">Guest</TableHead>
+          <TableHead class="px-4">Cottage</TableHead>
+          <TableHead class="px-4">Client</TableHead>
           <TableHead class="px-4">Dates</TableHead>
           <TableHead class="px-4">Status</TableHead>
           <TableHead class="px-4">Montant</TableHead>
-          <TableHead class="pl-4"></TableHead>
+          <TableHead class="px-4"></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
