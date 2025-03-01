@@ -19,15 +19,15 @@ export class BookingService {
     const { page = 1, status = 'all', sortBy = 'date', sortOrder = 'asc' } = filters
 
     let query = Booking.query()
-      .join('cottages', 'cottages.id', 'cottage_id')
+      .join('cabins', 'cabins.id', 'cabin_id')
       .join('guests', 'guests.id', 'guest_id')
       .select('bookings.*')
-      .preload('cottage')
+      .preload('cabin')
       .preload('guest')
 
     if (sortBy === 'date') query = query.orderBy('startDate', sortOrder).orderBy('guests.fullname')
-    else if (sortBy === 'cottage')
-      query = query.orderBy('cottages.name', sortOrder).orderBy('startDate')
+    else if (sortBy === 'cabin')
+      query = query.orderBy('cabins.name', sortOrder).orderBy('startDate')
     else if (sortBy === 'guest') query = query.orderBy('guests.fullname', sortOrder)
 
     if (status === 'checked-in') query.where('status', 'checked-in')
@@ -43,13 +43,13 @@ export class BookingService {
   }
 
   /**
-   * Retrieves a single booking by its ID, including associated cottage and guest data.
+   * Retrieves a single booking by its ID, including associated cabin and guest data.
    *
    * @param id - The ID of the booking to retrieve.
    * @returns The booking if found.
    */
   getBooking(id: number) {
-    return Booking.query().preload('cottage').preload('guest').where({ id }).firstOrFail()
+    return Booking.query().preload('cabin').preload('guest').where({ id }).firstOrFail()
   }
 
   /**

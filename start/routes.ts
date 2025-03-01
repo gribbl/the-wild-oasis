@@ -11,7 +11,7 @@ import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
 
 const SessionController = () => import('#controllers/auth/session_controller')
-const CottagesController = () => import('#controllers/cottages_controller')
+const CabinsController = () => import('#controllers/cabins_controller')
 const BookingsController = () => import('#controllers/bookings_controller')
 const DashboardController = () => import('#controllers/dashboard_controller')
 
@@ -25,20 +25,24 @@ router.post('/logout', [SessionController, 'destroy']).as('logout').use(middlewa
 
 router
   .group(() => {
-    router.get('/bookings', [BookingsController, 'index']).as('bookings.index')
-    router.get('/bookings/:id', [BookingsController, 'show']).as('bookings.show')
     router
-      .patch('/bookings/:id/checked-in', [BookingsController, 'checkedIn'])
-      .as('bookings.checkedIn')
+      .group(() => {
+        router.get('/', [BookingsController, 'index']).as('index')
+        router.get('/:id', [BookingsController, 'show']).as('show')
+        router.patch('/:id/status', [BookingsController, 'status']).as('status')
+      })
+      .prefix('bookings')
+      .as('bookings')
+
     router
-      .patch('/bookings/:id/checked-out', [BookingsController, 'checkedOut'])
-      .as('bookings.checkedOut')
+      .group(() => {
+        router.get('/', [CabinsController, 'index']).as('index')
+        router.post('/', [CabinsController, 'store']).as('store')
+        router.delete('/:id', [CabinsController, 'destroy']).as('destroy')
+        router.put('/:id', [CabinsController, 'update']).as('update')
+      })
+      .prefix('cabins')
+      .as('cabins')
 
-    router.patch('/bookings/:id/status', [BookingsController, 'status']).as('bookings.status')
-
-    router.get('/cottages', [CottagesController, 'index']).as('cottages.index')
-    router.post('/cottages', [CottagesController, 'store']).as('cottages.store')
-    router.delete('/cottages/:id', [CottagesController, 'destroy']).as('cottages.destroy')
-    router.put('/cottages/:id', [CottagesController, 'update']).as('cottages.update')
   })
   .use(middleware.auth())

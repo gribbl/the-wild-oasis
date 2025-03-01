@@ -18,7 +18,7 @@ const dateRange = `${startAtFormatted} - ${endAtFormatted}`
 
 const nights = `${booking.nights} nuit${booking.nights > 1 ? 's' : ''}`
 
-const status = ref(booking.status)
+const status = ref<string | undefined>(booking.status)
 
 watch(status, (value) => {
   router.patch(`/bookings/${booking.id}/status`, { status: value }, { preserveScroll: true })
@@ -28,12 +28,14 @@ watch(status, (value) => {
 <template>
   <TableRow>
     <TableCell class="whitespace-nowrap px-4 font-medium">
-      {{ booking.cottage!.name }}
+      {{ booking.cabin!.name }}
     </TableCell>
-    <TableCell>
+    <TableCell class="max-w-56 whitespace-nowrap px-4">
       <div class="flex flex-col">
         <span class="font-medium">{{ booking.guest!.fullname }}</span>
-        <span class="text-muted-foreground">{{ booking.guest!.email }}</span>
+        <span class="overflow-hidden text-ellipsis text-muted-foreground">
+          {{ booking.guest!.email }}
+        </span>
       </div>
     </TableCell>
     <TableCell class="whitespace-nowrap px-4">

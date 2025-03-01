@@ -39,7 +39,7 @@ export default class BookingsController {
 
     await this.bookingService.updateStatus(params.id, status)
 
-    session.flash('success', 'Le status de la réversation a été modifié')
+    session.flash('success', 'Le statut de la réversation a été modifié')
 
     return response.redirect().withQs().back()
   }

@@ -1,7 +1,7 @@
 import Booking from '#models/booking'
 import BaseDto from './base/dto.js'
 import { relation } from './base/utils.js'
-import CottageDto from './cottage.js'
+import CottageDto from './cabin.js'
 import GuestDto from './guest.js'
 
 export default class BookingDto extends BaseDto {
@@ -18,7 +18,7 @@ export default class BookingDto extends BaseDto {
   readonly createdAt: string
   readonly startDate: string
   readonly endDate: string
-  readonly cottage: CottageDto | null
+  readonly cabin: CottageDto | null
   readonly guest: GuestDto | null
 
   constructor(booking: Booking) {
@@ -36,7 +36,7 @@ export default class BookingDto extends BaseDto {
     this.accommodationPrice = booking.accommodationPrice
     this.breakfastPrice = booking.breakfastPrice
     this.total = booking.total
-    this.cottage = relation(booking.cottage, CottageDto)
+    this.cabin = relation(booking.cabin, CottageDto)
     this.guest = relation(booking.guest, GuestDto)
   }
 }

@@ -1,5 +1,5 @@
-import Cottage from '#models/cottage'
-import { cottageFilterValidator, cottageValidator, editCottageValidator } from '#validators/cottage'
+import Cabin from '#models/cabin'
+import { cabinFilterValidator, cabinValidator, editCabinValidator } from '#validators/cabin'
 import { inject } from '@adonisjs/core'
 import { MultipartFile } from '@adonisjs/core/bodyparser'
 import { cuid } from '@adonisjs/core/helpers'
@@ -12,82 +12,82 @@ const RESULTS_PER_PAGE = 10
 const UPLOADS_PATH = app.makePath('storage/uploads')
 
 @inject()
-export class CottageService {
+export class CabinService {
   constructor(protected ctx: HttpContext) {}
 
   /**
-   * Retrieves all cottages with filtering, sorting, and pagination.
+   * Retrieves all cabins with filtering, sorting, and pagination.
    * @param filters Validated request query parameters.
-   * @returns Paginated list of cottages.
+   * @returns Paginated list of cabins.
    */
-  async getCottages(filters: Infer<typeof cottageFilterValidator>) {
+  async getCabins(filters: Infer<typeof cabinFilterValidator>) {
     const { page = 1, discountFilter = 'all', sortBy = 'name', sortOrder = 'asc' } = filters
-    const query = Cottage.query().orderBy(sortBy, sortOrder)
+    const query = Cabin.query().orderBy(sortBy, sortOrder)
 
     if (discountFilter === 'with-discount') query.where('discount', '>', 0)
     else if (discountFilter === 'no-discount') query.where('discount', '=', 0)
 
-    const cottages = await query.paginate(page, RESULTS_PER_PAGE)
+    const cabins = await query.paginate(page, RESULTS_PER_PAGE)
 
-    cottages.baseUrl(this.ctx.request.url())
-    cottages.queryString(this.ctx.request.qs())
+    cabins.baseUrl(this.ctx.request.url())
+    cabins.queryString(this.ctx.request.qs())
 
-    return cottages
+    return cabins
   }
 
   /**
-   * Creates a new cottage.
+   * Creates a new cabin.
    * @param payload Validated request payload.
-   * @returns The newly created cottage.
+   * @returns The newly created cabin.
    */
-  async store(payload: Infer<typeof cottageValidator>) {
+  async store(payload: Infer<typeof cabinValidator>) {
     const { image, ...data } = payload
 
     const imageFilename = this.generateImageFilename(image)
 
-    const cottage = await Cottage.create({
+    const cabin = await Cabin.create({
       ...data,
       imageFilename,
     })
 
     await this.uploadImage(image, imageFilename)
 
-    return cottage
+    return cabin
   }
 
   /**
-   * Updates an existing cottage with optional image replacement.
-   * @param id Cottage ID.
-   * @param payload Updated data for the cottage.
-   * @returns The updated cottage.
+   * Updates an existing cabin with optional image replacement.
+   * @param id Cabin ID.
+   * @param payload Updated data for the cabin.
+   * @returns The updated cabin.
    */
-  async update(id: number, payload: Infer<typeof editCottageValidator>) {
-    const cottage = await Cottage.findOrFail(id)
+  async update(id: number, payload: Infer<typeof editCabinValidator>) {
+    const cabin = await Cabin.findOrFail(id)
 
     const { image, ...data } = payload
 
-    const newImageFilename = image ? this.generateImageFilename(image) : cottage.imageFilename
+    const newImageFilename = image ? this.generateImageFilename(image) : cabin.imageFilename
 
-    const oldImageFilename = cottage.imageFilename
+    const oldImageFilename = cabin.imageFilename
 
-    await cottage.merge({ ...data, imageFilename: newImageFilename }).save()
+    await cabin.merge({ ...data, imageFilename: newImageFilename }).save()
 
     if (image) {
       await this.uploadImage(image, newImageFilename)
       await this.deleteImage(oldImageFilename)
     }
 
-    return cottage
+    return cabin
   }
 
   /**
-   * Deletes a cottage along with its associated image.
-   * @param id Cottage ID.
+   * Deletes a cabin along with its associated image.
+   * @param id Cabin ID.
    */
   async destroy(id: number) {
-    const cottage = await Cottage.findOrFail(id)
-    await cottage.delete()
-    await this.deleteImage(cottage.imageFilename)
+    const cabin = await Cabin.findOrFail(id)
+    await cabin.delete()
+    await this.deleteImage(cabin.imageFilename)
   }
 
   /**

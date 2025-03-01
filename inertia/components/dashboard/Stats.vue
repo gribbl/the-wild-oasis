@@ -54,7 +54,9 @@ defineProps<{
       >
         Revenus
       </span>
-      <span class="text-2xl font-semibold"> {{ formatCurrency(revenue) }}</span>
+      <span class="overflow-hidden text-ellipsis whitespace-nowrap text-2xl font-semibold">
+        {{ formatCurrency(revenue) }}
+      </span>
     </div>
   </div>
 

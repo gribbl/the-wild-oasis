@@ -1,7 +1,8 @@
 import { BookingFactory } from '#database/factories/booking_factory'
 import { GuestFactory } from '#database/factories/guest_factory'
 import Roles from '#enums/roles'
-import Cottage from '#models/cottage'
+import Booking from '#models/booking'
+import Cabin from '#models/cabin'
 import Role from '#models/role'
 import User from '#models/user'
 import { BaseSeeder } from '@adonisjs/lucid/seeders'
@@ -25,13 +26,13 @@ export default class extends BaseSeeder {
       password: 'motdepasse',
     })
 
-    const cottages = await Cottage.createMany([
+    const cabins = await Cabin.createMany([
       {
         name: '001',
         capacity: 2,
         price: 249.95,
         description: 'A cozy cabin for two',
-        imageFilename: 'cottage-001.jpg',
+        imageFilename: '001.jpg',
       },
       {
         name: '002',
@@ -39,7 +40,7 @@ export default class extends BaseSeeder {
         price: 349.95,
         discount: 0.08,
         description: 'A spacious cabin for two',
-        imageFilename: 'cottage-002.jpg',
+        imageFilename: '002.jpg',
       },
       {
         name: '003',
@@ -47,14 +48,14 @@ export default class extends BaseSeeder {
         price: 499.95,
         discount: 0.05,
         description: 'A cabin for a family of four',
-        imageFilename: 'cottage-003.jpg',
+        imageFilename: '003.jpg',
       },
       {
         name: '004',
         capacity: 4,
         price: 749.95,
         description: 'A cabin for a group of four',
-        imageFilename: 'cottage-004.jpg',
+        imageFilename: '004.jpg',
       },
       {
         name: '005',
@@ -62,14 +63,14 @@ export default class extends BaseSeeder {
         price: 999.95,
         discount: 0.1,
         description: 'A cabin for a group of six',
-        imageFilename: 'cottage-005.jpg',
+        imageFilename: '005.jpg',
       },
       {
         name: '006',
         capacity: 6,
         price: 1499.95,
         description: 'A cabin for a group of six',
-        imageFilename: 'cottage-006.jpg',
+        imageFilename: '006.jpg',
       },
       {
         name: '007',
@@ -77,26 +78,44 @@ export default class extends BaseSeeder {
         price: 1999.95,
         discount: 0.09,
         description: 'A cabin for a group of eight',
-        imageFilename: 'cottage-007.jpg',
+        imageFilename: '007.jpg',
       },
       {
         name: '008',
         capacity: 10,
         price: 2499.95,
         description: 'A cabin for a group of ten',
-        imageFilename: 'cottage-008.jpg',
+        imageFilename: '008.jpg',
       },
     ])
 
-    const cottagesIds = cottages.map((cottage) => cottage.id)
+    const cabinsIds = cabins.map((cabin) => cabin.id)
 
-    const guests = await GuestFactory.createMany(10)
+    for (const cabinId of cabinsIds) {
+      const bookings: Booking[] = []
 
-    const guestsIds = guests.map((guest) => guest.id)
+      for (let i = 0; i < 20; i++) {
+        while (true) {
+          const guest = await GuestFactory.create()
 
-    await BookingFactory.tap((row) => {
-      row.cottageId = cottagesIds[Math.floor(Math.random() * cottagesIds.length)]
-      row.guestId = guestsIds[Math.floor(Math.random() * guestsIds.length)]
-    }).createMany(20)
+          const newBooking = await BookingFactory.merge({ cabinId, guestId: guest.id }).make()
+
+          const isOverlapping = bookings.some(
+            (booking) =>
+              (newBooking.startDate >= booking.startDate &&
+                newBooking.startDate < booking.endDate) ||
+              (newBooking.endDate > booking.startDate && newBooking.endDate <= booking.endDate) ||
+              (newBooking.startDate <= booking.startDate && newBooking.endDate >= booking.endDate)
+          )
+
+          if (!isOverlapping) {
+            bookings.push(newBooking)
+            break
+          }
+        }
+      }
+
+      await Booking.createMany(bookings)
+    }
   }
 }

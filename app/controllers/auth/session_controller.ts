@@ -11,6 +11,7 @@ export default class SessionController {
     const { email, password, remember } = await request.validateUsing(loginValidator)
 
     const user = await User.verifyCredentials(email, password)
+
     await auth.use('web').login(user, remember)
 
     session.flash('success', 'Vous êtes connecté.')
@@ -20,7 +21,9 @@ export default class SessionController {
 
   async destroy({ response, auth, session }: HttpContext) {
     await auth.use('web').logout()
+
     session.flash('success', 'Vous êtes déconnecté.')
+
     return response.redirect().toRoute('login')
   }
 }

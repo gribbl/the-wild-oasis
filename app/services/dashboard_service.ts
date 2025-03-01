@@ -1,5 +1,5 @@
 import Booking from '#models/booking'
-import Cottage from '#models/cottage'
+import Cabin from '#models/cabin'
 import { DateTime } from 'luxon'
 
 export const PERIODS = {
@@ -17,6 +17,12 @@ const PERIOD_DAYS = {
 } as const
 
 export class DashboardService {
+  /**
+   * Retrieves dashboard data based on the selected period.
+   *
+   * @param period - The selected period (e.g., last 7 days, 30 days, etc.).
+   * @returns The aggregated dashboard data.
+   */
   async getData(period: keyof typeof PERIOD_DAYS) {
     const currentDateTime = DateTime.now().set({
       hour: 14,
@@ -43,9 +49,9 @@ export class DashboardService {
       currentDateTime
     )
 
-    const cottagesCount = await this.getCottagesCount()
+    const cabinsCount = await this.getCabinsCount()
 
-    const availableNightsInPeriod = cottagesCount * daysInPeriod
+    const availableNightsInPeriod = cabinsCount * daysInPeriod
 
     const occupancyRate = this.calculateOccupancyRate(availableNightsInPeriod, bookedNightsInPeriod)
 
@@ -60,20 +66,40 @@ export class DashboardService {
     }
   }
 
-  private async getCottagesCount() {
-    const totalCottages = await Cottage.query().count('* as total')
+  /**
+   * Retrieves the total number of cabins.
+   *
+   * @returns The total count of cabins.
+   */
+  private async getCabinsCount() {
+    const totalCabins = await Cabin.query().count('* as total')
 
-    return totalCottages[0].$extras.total || 1
+    return totalCabins[0].$extras.total || 1
   }
 
+  /**
+   * Fetches all bookings that fall within the selected time period.
+   *
+   * @param startDate - The start date of the period.
+   * @param currentDateTime - The end date of the period.
+   * @returns A list of bookings within the period.
+   */
   private getBookingsInPeriod(startDate: DateTime, currentDateTime: DateTime) {
     return Booking.query()
-      .preload('cottage')
+      .preload('cabin')
       .whereBetween('startDate', [startDate.toSQL()!, currentDateTime.toSQL()!])
       .orWhereBetween('endDate', [startDate.toSQL()!, currentDateTime.toSQL()!])
       .orderBy('startDate')
   }
 
+  /**
+   * Calculates total revenue for bookings within a given period.
+   *
+   * @param bookings - The list of bookings.
+   * @param periodStartDate - The start date of the period.
+   * @param periodEndDate - The end date of the period.
+   * @returns The total revenue for the period.
+   */
   private calculateRevenue(
     bookings: Booking[],
     periodStartDate: DateTime,
@@ -91,6 +117,14 @@ export class DashboardService {
     }, 0)
   }
 
+  /**
+   * Calculates the total booked nights within a given period.
+   *
+   * @param bookings - The list of bookings.
+   * @param startDate - The start date of the period.
+   * @param currentDateTime - The end date of the period.
+   * @returns The total number of booked nights.
+   */
   private calculateBookedNightsInPeriod(
     bookings: Booking[],
     startDate: DateTime,
@@ -109,6 +143,15 @@ export class DashboardService {
     }, 0)
   }
 
+  /**
+   * Calculates the number of nights for a booking within a given period.
+   *
+   * @param bookingStartDate - The start date of the booking.
+   * @param bookingEndDate - The end date of the booking.
+   * @param periodStartDate - The start date of the period.
+   * @param periodEndDate - The end date of the period.
+   * @returns The number of nights for the booking within the period.
+   */
   private calculateBookingNightsInPeriod(
     bookingStartDate: DateTime,
     bookingEndDate: DateTime,
@@ -121,12 +164,27 @@ export class DashboardService {
     return Math.max(1, Math.ceil(effectiveEndDate.diff(effectiveStartDate, 'days').days))
   }
 
+  /**
+   * Calculates the occupancy rate for a given period.
+   *
+   * @param availableNightsInPeriod - The total number of available nights.
+   * @param bookedNightsInPeriod - The total number of booked nights.
+   * @returns The occupancy rate as a percentage.
+   */
   private calculateOccupancyRate(availableNightsInPeriod: number, bookedNightsInPeriod: number) {
     if (availableNightsInPeriod <= 0 || bookedNightsInPeriod <= 0) return 0
 
     return (bookedNightsInPeriod / availableNightsInPeriod) * 100
   }
 
+  /**
+   * Generates chart data for bookings within the selected period.
+   *
+   * @param bookings - The list of bookings.
+   * @param startDate - The start date of the period.
+   * @param endDate - The end date of the period.
+   * @returns An array of objects containing chart data.
+   */
   private generateChartData(bookings: Booking[], startDate: DateTime, endDate: DateTime) {
     if (bookings.length === 0) return []
 

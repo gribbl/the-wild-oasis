@@ -1,6 +1,6 @@
 import vine, { SimpleMessagesProvider } from '@vinejs/vine'
 
-export const cottageValidator = vine.compile(
+export const cabinValidator = vine.compile(
   vine.object({
     name: vine.string(),
     price: vine.number().positive().min(1),
@@ -11,7 +11,7 @@ export const cottageValidator = vine.compile(
   })
 )
 
-export const editCottageValidator = vine.compile(
+export const editCabinValidator = vine.compile(
   vine.object({
     name: vine.string(),
     price: vine.number().positive().min(1),
@@ -22,7 +22,7 @@ export const editCottageValidator = vine.compile(
   })
 )
 
-export const cottageFilterValidator = vine.compile(
+export const cabinFilterValidator = vine.compile(
   vine.object({
     discountFilter: vine.enum(['all', 'with-discount', 'no-discount']).optional(),
     sortBy: vine.enum(['name', 'price', 'capacity']).optional(),
@@ -31,7 +31,7 @@ export const cottageFilterValidator = vine.compile(
   })
 )
 
-cottageValidator.messagesProvider = new SimpleMessagesProvider({
+cabinValidator.messagesProvider = new SimpleMessagesProvider({
   'name.required': 'Le nom est obligatoire',
   'price.positive': 'Le prix ne peut être négatif',
   'price.min': 'Le prix ne peut être égal à 0',
@@ -40,7 +40,7 @@ cottageValidator.messagesProvider = new SimpleMessagesProvider({
   'image.required': 'Une image est requise',
 })
 
-editCottageValidator.messagesProvider = new SimpleMessagesProvider({
+editCabinValidator.messagesProvider = new SimpleMessagesProvider({
   'name.required': 'Le nom est obligatoire',
   'price.positive': 'Le prix ne peut être négatif',
   'price.min': 'Le prix ne peut être égal à 0',

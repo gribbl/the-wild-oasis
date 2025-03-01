@@ -11,10 +11,10 @@ defineProps<{ bookings: BookingDto[] }>()
     <Table v-if="bookings.length" class="min-w-full">
       <TableHeader>
         <TableRow>
-          <TableHead class="px-4">Cottage</TableHead>
+          <TableHead class="px-4">Chalet</TableHead>
           <TableHead class="px-4">Client</TableHead>
           <TableHead class="px-4">Dates</TableHead>
-          <TableHead class="px-4">Status</TableHead>
+          <TableHead class="px-4">Statut</TableHead>
           <TableHead class="px-4">Montant</TableHead>
           <TableHead class="px-4"></TableHead>
         </TableRow>

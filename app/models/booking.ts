@@ -1,7 +1,7 @@
 import { BaseModel, belongsTo, column, computed } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import { DateTime } from 'luxon'
-import Cottage from './cottage.js'
+import Cabin from './cabin.js'
 import Guest from './guest.js'
 import { breakfastPrice } from '#config/settings'
 
@@ -10,7 +10,7 @@ export default class Booking extends BaseModel {
   declare id: number
 
   @column()
-  declare cottageId: number
+  declare cabinId: number
 
   @column()
   declare guestId: number
@@ -39,8 +39,8 @@ export default class Booking extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 
-  @belongsTo(() => Cottage)
-  declare cottage: BelongsTo<typeof Cottage>
+  @belongsTo(() => Cabin)
+  declare cabin: BelongsTo<typeof Cabin>
 
   @belongsTo(() => Guest)
   declare guest: BelongsTo<typeof Guest>
@@ -55,14 +55,14 @@ export default class Booking extends BaseModel {
 
   @computed()
   get discount() {
-    if (!this.cottage) return null
-    return this.cottage.price * this.cottage.discount
+    if (!this.cabin) return null
+    return this.cabin.price * this.cabin.discount
   }
 
   @computed()
   get accommodationPrice() {
-    if (!this.cottage) return null
-    return this.cottage.price * this.nights
+    if (!this.cabin) return null
+    return this.cabin.price * this.nights
   }
 
   @computed()

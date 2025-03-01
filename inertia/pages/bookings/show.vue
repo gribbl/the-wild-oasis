@@ -60,7 +60,7 @@ watch(status, (value) => {
       <div class="flex flex-col items-center gap-3 text-lg font-bold uppercase md:flex-row">
         <TentIcon class="size-6" />
 
-        <span>cottage {{ booking.cottage!.name }}</span>
+        <span>Chalet {{ booking.cabin!.name }}</span>
         <span>&ndash;</span>
         <span data-allow-mismatch>
           {{ nights }}
@@ -73,7 +73,7 @@ watch(status, (value) => {
       <div class="flex-1 p-5 md:p-10">
         <img
           class="size-full rounded-lg object-cover"
-          :src="'/cottages/' + booking.cottage?.imageFilename"
+          :src="'/cabins/' + booking.cabin?.imageFilename"
         />
       </div>
 
@@ -136,7 +136,7 @@ watch(status, (value) => {
         <div class="flex flex-col items-start gap-5 md:flex-row md:items-center md:justify-between">
           <div class="flex items-center gap-3">
             <ClipboardIcon class="size-6" />
-            <span class="text-lg">Status</span>
+            <span class="text-lg">Statut</span>
           </div>
 
           <BookingStatusSelect v-model="status" />

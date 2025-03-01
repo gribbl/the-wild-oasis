@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { useForm, usePage } from '@inertiajs/vue3'
+import type CabinDto from '#dtos/cabin'
+import { useForm } from '@inertiajs/vue3'
 import { LoaderIcon } from 'lucide-vue-next'
-import { watch } from 'vue'
+import { computed, watch, watchEffect } from 'vue'
+
+const props = defineProps<{
+  mode: 'add' | 'edit'
+  cabin?: CabinDto | null
+}>()
 
 const open = defineModel<boolean>('open')
-
-const page = usePage()
 
 const form = useForm({
   name: '',
@@ -16,17 +20,39 @@ const form = useForm({
   image: null,
 })
 
-function addCottage() {
-  form.post(page.url, {
-    onSuccess: () => {
-      form.reset()
-      open.value = false
-    },
-  })
+watchEffect(() => {
+  if (props.mode === 'edit' && props.cabin) {
+    form.name = props.cabin.name
+    form.capacity = [props.cabin.capacity]
+    form.price = props.cabin.price
+    form.discount = props.cabin.discount
+    form.description = props.cabin.description
+  }
+})
+
+function onSuccess() {
+  open.value = false
+  form.reset()
+}
+
+function submit() {
+  if (form.processing) return
+
+  if (props.mode === 'edit' && props.cabin?.id) {
+    form.put(`/cabins/${props.cabin.id}`, { onSuccess })
+  } else {
+    form.post('/cabins', { onSuccess })
+  }
 }
 
 watch(open, (value) => {
   if (!value) form.clearErrors()
+})
+
+const description = computed(() => {
+  return props.mode === 'add'
+    ? 'Ajouter un nouveau chalet en remplissant les champs ci-dessous.'
+    : 'Modifiez les informations du chalet.'
 })
 </script>
 
@@ -36,11 +62,11 @@ watch(open, (value) => {
       class="flex h-screen max-w-screen-sm flex-col sm:grid sm:h-auto sm:flex-none lg:max-w-screen-md"
     >
       <DialogHeader>
-        <DialogTitle>Ajouter un cottage</DialogTitle>
+        <DialogTitle>{{ mode === 'add' ? 'Ajouter' : 'Modifier' }} un chalet</DialogTitle>
       </DialogHeader>
+
       <DialogDescription>
-        Ajoutez un nouveau cottage en fournissant les informations requises dans le formulaire
-        ci-dessous.
+        {{ description }}
       </DialogDescription>
 
       <form
@@ -48,7 +74,7 @@ watch(open, (value) => {
         class="flex flex-1 flex-col gap-4 md:py-4"
         enctype="multipart/form-data"
         autocomplete="off"
-        @submit.prevent="addCottage"
+        @submit.prevent="submit"
       >
         <div class="flex h-full flex-col gap-4 md:flex-row">
           <div class="flex flex-col gap-4 md:flex-1">
@@ -59,6 +85,7 @@ watch(open, (value) => {
                   {{ form.errors.name }}
                 </span>
               </div>
+              <!-- @vue-ignore -->
               <Input id="name" v-model="form.name" :disabled="form.processing" />
               <span v-if="form.errors.name" class="hidden text-xs text-red-500 sm:block">
                 {{ form.errors.name }}
@@ -128,6 +155,7 @@ watch(open, (value) => {
                   {{ form.errors.capacity }}
                 </span>
               </div>
+              <!-- @vue-ignore -->
               <Slider
                 id="capacity"
                 v-model="form.capacity"
@@ -152,6 +180,7 @@ watch(open, (value) => {
                   {{ form.errors.description }}
                 </span>
               </div>
+              <!-- @vue-ignore -->
               <Textarea
                 id="description"
                 v-model="form.description"
@@ -171,6 +200,7 @@ watch(open, (value) => {
               </div>
               <Input
                 id="image"
+                class="file:text-foreground"
                 :disabled="form.processing"
                 type="file"
                 @input="form.image = $event.target.files[0]"
@@ -186,7 +216,7 @@ watch(open, (value) => {
       <DialogFooter>
         <Button type="submit" form="form" :disabled="form.processing">
           <LoaderIcon v-if="form.processing" class="mr-2 size-4 animate-spin" />
-          <span>Ajouter le cottage</span>
+          <span>{{ mode === 'add' ? 'Ajouter le chalet' : 'Modifier le chalet' }}</span>
         </Button>
       </DialogFooter>
     </DialogContent>

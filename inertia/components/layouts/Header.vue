@@ -10,7 +10,7 @@ defineProps<{
 
 <template>
   <header
-    class="sticky top-0 z-50 flex items-center gap-5 border-b bg-background px-5 py-4 lg:px-10"
+    class="sticky top-0 z-50 flex items-center gap-5 border-b bg-background/80 px-5 py-4 backdrop-blur lg:px-10"
   >
     <MobileMenu :links />
 

@@ -4,7 +4,7 @@ import { CalendarDaysIcon, CircleGaugeIcon, SettingsIcon, TentIcon } from 'lucid
 const links = [
   { name: 'Tableau de bord', icon: CircleGaugeIcon, href: '/dashboard' },
   { name: 'Réservations', icon: CalendarDaysIcon, href: '/bookings' },
-  { name: 'Cottages', icon: TentIcon, href: '/cottages' },
+  { name: 'Chalets', icon: TentIcon, href: '/cabins' },
   // { name: 'Utilisateurs', icon: UsersIcon, href: '/users' },
   { name: 'Paramètres', icon: SettingsIcon, href: '/settings' },
 ]
