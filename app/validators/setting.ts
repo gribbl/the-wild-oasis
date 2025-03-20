@@ -10,12 +10,15 @@ export const updateSettingValidator = vine.compile(
 )
 
 updateSettingValidator.messagesProvider = new SimpleMessagesProvider({
-  'minBookingLength.required': 'La durée minimale du séjour est requise',
-  'minBookingLength.min': "La durée minimale du séjour doit être d'au moins {{min}} nuit(s)",
-  'maxBookingLength.required': 'La durée maximale du séjour est requise',
+  'minBookingLength.required': 'La durée minimale du séjour est requise.',
+  'minBookingLength.number': 'La durée minimale du séjour doit être un nombre.',
+  'minBookingLength.min': "La durée minimale du séjour doit être d'au moins {{min}} nuit(s).",
+  'maxBookingLength.required': 'La durée maximale du séjour est requise.',
+  'maxBookingLength.number': 'La durée maximale du séjour doit être un nombre.',
   'maxBookingLength.max': 'La durée maximale du séjour ne peut pas dépasser {{max}} nuits.',
   'maxBookingLength.greaterThan':
     'La durée maximale du séjour doit être supérieure ou égale à la durée minimale.',
-  'breakfastPrice.required': 'Le prix du petit-déjeuner est requis',
+  'breakfastPrice.required': 'Le prix du petit-déjeuner est requis.',
+  'breakfastPrice.number': 'Le prix du petit-déjeuner doit être un nombre.',
   'breakfastPrice.min': 'Le prix du petit-déjeuner doit être au moins de {{min}} €.',
 })

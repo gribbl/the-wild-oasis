@@ -56,7 +56,7 @@ function submitUpdatePasswordForm() {
 
       <Label class="col-start-1" for="fullname">Nom</Label>
       <Input id="fullname" v-model="updateNameForm.fullname" />
-      <span v-if="updateNameForm.errors.fullname" class="text-sm text-red-500">
+      <span v-if="updateNameForm.errors.fullname" class="text-xs text-red-500">
         {{ updateNameForm.errors.fullname }}
       </span>
 
@@ -76,13 +76,13 @@ function submitUpdatePasswordForm() {
     >
       <Label class="col-start-1" for="currentPassword">Mot de passe actuel</Label>
       <Input id="currentPassword" v-model="updatePasswordForm.currentPassword" type="password" />
-      <span v-if="updatePasswordForm.errors.currentPassword" class="text-sm text-red-500">
+      <span v-if="updatePasswordForm.errors.currentPassword" class="text-xs text-red-500">
         {{ updatePasswordForm.errors.currentPassword }}
       </span>
 
       <Label class="col-start-1" for="password">Nouveau mot de passe</Label>
       <Input id="password" v-model="updatePasswordForm.password" type="password" />
-      <span v-if="updatePasswordForm.errors.password" class="text-sm text-red-500">
+      <span v-if="updatePasswordForm.errors.password" class="text-xs text-red-500">
         {{ updatePasswordForm.errors.password }}
       </span>
 

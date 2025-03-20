@@ -9,7 +9,7 @@ export const loginValidator = vine.compile(
 )
 
 loginValidator.messagesProvider = new SimpleMessagesProvider({
-  'email.required': "L'adresse email est manquante",
-  'email.email': "L'adresse email n'est pas valide",
-  'password.required': 'Le mot de passe est manquant',
+  'email.required': "L'adresse email est requise.",
+  'email.email': "L'adresse email n'est pas valide.",
+  'password.required': 'Le mot de passe est requis.',
 })

@@ -32,18 +32,18 @@ export const cabinFilterValidator = vine.compile(
 )
 
 cabinValidator.messagesProvider = new SimpleMessagesProvider({
-  'name.required': 'Le nom est obligatoire',
-  'price.positive': 'Le prix ne peut être négatif',
-  'price.min': 'Le prix ne peut être égal à 0',
+  'name.required': 'Le nom est requis.',
+  'price.positive': 'Le prix ne peut être négatif.',
+  'price.min': 'Le prix ne peut être égal à 0.',
   'discount.positive': 'La remise ne peut être négative',
-  'description.required': 'La description est obligatoire',
-  'image.required': 'Une image est requise',
+  'description.required': 'La description est requise.',
+  'image.required': 'Une image est requise.',
 })
 
 editCabinValidator.messagesProvider = new SimpleMessagesProvider({
-  'name.required': 'Le nom est obligatoire',
-  'price.positive': 'Le prix ne peut être négatif',
-  'price.min': 'Le prix ne peut être égal à 0',
-  'discount.positive': 'La remise ne peut être négative',
-  'description.required': 'La description est obligatoire',
+  'name.required': 'Le nom est requis.',
+  'price.positive': 'Le prix ne peut être négatif.',
+  'price.min': 'Le prix ne peut être égal à 0.',
+  'discount.positive': 'La remise ne peut être négative.',
+  'description.required': 'La description est requise.',
 })
