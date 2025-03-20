@@ -24,13 +24,11 @@ defineProps<{
       <DropdownMenu>
         <DropdownMenuTrigger as-child>
           <Button variant="ghost" size="icon" aria-label="Sélectionner un thème">
-            <MoonIcon class="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <SunIcon
-              class="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
-            />
+            <MoonIcon v-if="store.appearance === 'dark'" />
+            <SunIcon v-if="store.appearance === 'light'" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent align="center">
           <DropdownMenuItem
             aria-label="Activer le mode clair"
             @click="store.setAppearance('light')"

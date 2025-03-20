@@ -28,11 +28,11 @@ defineProps<{
         </VisuallyHidden>
       </SheetHeader>
       <div class="grid gap-6 text-lg font-medium">
-        <div class="mb-10 h-24">
-          <img class="h-full justify-self-center" :src="`/logo-${store.appearance}.png`" alt="" />
+        <div class="mb-10 h-24 justify-self-center">
+          <img class="h-full" :src="`/logo-${store.appearance}.png`" alt="" />
         </div>
 
-        <nav class="flex flex-col gap-3 self-stretch">
+        <nav class="flex flex-col gap-3">
           <SheetClose v-for="link in links" :key="link.name" as-child>
             <Link
               class="group flex items-center gap-3 rounded px-5 py-3 transition hover:bg-muted-foreground/5"

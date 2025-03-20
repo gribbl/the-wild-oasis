@@ -12,9 +12,9 @@ const links = [
 
 <template>
   <div class="flex min-h-screen flex-col bg-muted-foreground/5 xl:flex-row">
-    <Sidebar :links />
+    <AppSidebar :links />
     <div class="flex-1">
-      <Header :links />
+      <AppHeader :links />
       <main class="container mx-auto flex flex-col p-5 lg:p-10">
         <slot />
       </main>
