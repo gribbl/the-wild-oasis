@@ -62,7 +62,7 @@ watch(sortOrder, (value) => {
 <template>
   <div class="flex flex-col gap-3 sm:flex-row sm:self-end lg:self-auto">
     <Select v-model="filter">
-      <SelectTrigger class="flex-1 bg-background">
+      <SelectTrigger class="flex-1 bg-background" aria-label="Filter les réservations">
         <SelectValue class="pr-2" placeholder="Afficher" />
       </SelectTrigger>
       <SelectContent>
@@ -75,7 +75,7 @@ watch(sortOrder, (value) => {
 
     <div class="flex items-center gap-3">
       <Select v-model="sortBy">
-        <SelectTrigger class="w-[160px] flex-1 bg-background">
+        <SelectTrigger class="w-[160px] flex-1 bg-background" aria-label="Trier les réservations">
           <SelectValue placeholder="Trier par" />
         </SelectTrigger>
         <SelectContent>
@@ -86,7 +86,11 @@ watch(sortOrder, (value) => {
         </SelectContent>
       </Select>
 
-      <Button variant="outline" @click="toggleSortOrder">
+      <Button
+        variant="outline"
+        aria-label="Trier par ordre croissant/décroissant"
+        @click="toggleSortOrder"
+      >
         <ArrowDownNarrowWideIcon v-if="sortOrder === 'asc'" />
         <ArrowDownWideNarrowIcon v-else />
       </Button>

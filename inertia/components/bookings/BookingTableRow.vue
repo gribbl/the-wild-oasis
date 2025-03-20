@@ -58,11 +58,11 @@ watch(status, (value) => {
     </TableCell>
     <TableCell class="whitespace-nowrap px-4 text-right">
       <DropdownMenu>
-        <DropdownMenuTrigger class="px-4">
+        <DropdownMenuTrigger class="px-4" aria-label="Afficher les actions pour cette réservation">
           <EllipsisVerticalIcon class="size-5" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem as-child>
+          <DropdownMenuItem as-child aria-label="Voir les détails de la réservation">
             <Link :href="`/bookings/${booking.id}`">
               <EyeIcon class="size-4" />
               <span>Voir les détails</span>

@@ -7,12 +7,14 @@ defineProps<{
   bookings: InferPageProps<BookingsController, 'index'>['bookings']
   filters: InferPageProps<BookingsController, 'index'>['filters']
 }>()
+
+const tableId = 'bookings-table'
 </script>
 
 <template>
   <Head>
     <title>Réservations</title>
-    <meta name="description" content="Consultez et gérez toutes vos réservations." />
+    <meta name="description" content="Consultez et gérez toutes les réservations." />
   </Head>
 
   <div class="mb-10 flex flex-col justify-between gap-5 md:flex-row">
@@ -20,7 +22,7 @@ defineProps<{
     <BookingFilters :filters />
   </div>
 
-  <BookingTable :bookings="bookings.data" />
+  <BookingTable :id="tableId" :bookings="bookings.data" />
 
   <div class="flex flex-col-reverse items-center gap-3 sm:flex-row sm:justify-between">
     <BookingResultsCount
@@ -32,6 +34,7 @@ defineProps<{
     <BookingPagination
       :previous-page-url="bookings.pagination.previousPageUrl"
       :next-page-url="bookings.pagination.nextPageUrl"
+      :table-id
     />
   </div>
 </template>

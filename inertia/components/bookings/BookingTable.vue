@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import type BookingDto from '#dtos/booking'
 
-defineProps<{ bookings: BookingDto[] }>()
+defineProps<{
+  bookings: BookingDto[]
+  id: string
+}>()
 </script>
 
 <template>
   <div
     class="mb-5 min-w-full overflow-hidden overflow-x-auto scroll-smooth rounded-md border border-muted-foreground/15 bg-background"
   >
-    <Table v-if="bookings.length" class="min-w-full">
+    <Table v-if="bookings.length" :id class="min-w-full">
       <TableHeader>
         <TableRow>
           <TableHead class="px-4">Chalet</TableHead>

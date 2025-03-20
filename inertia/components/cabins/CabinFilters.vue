@@ -61,7 +61,7 @@ watch(sortOrder, (value) => {
 <template>
   <div class="flex flex-col gap-3 sm:flex-row sm:self-end md:self-auto">
     <Select v-model="filter">
-      <SelectTrigger class="flex-1 bg-background">
+      <SelectTrigger class="flex-1 bg-background" aria-label="Filtrer les chalets">
         <SelectValue class="pr-2" placeholder="Afficher" />
       </SelectTrigger>
       <SelectContent>

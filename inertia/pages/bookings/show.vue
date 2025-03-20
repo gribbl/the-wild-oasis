@@ -42,7 +42,10 @@ watch(status, (value) => {
 </script>
 
 <template>
-  <Head :title="`Réservation #${booking.id}`" />
+  <Head>
+    <title>Réservation {{ booking.id }}</title>
+    <meta name="description" :content="`Les détails de la réservation ${booking.id}`" />
+  </Head>
 
   <div class="mb-10 flex flex-col justify-between gap-5 md:flex-row md:items-center">
     <h1 class="text-3xl font-bold tracking-wide">Réservation #{{ booking.id }}</h1>
@@ -74,6 +77,7 @@ watch(status, (value) => {
         <img
           class="size-full rounded-lg object-cover"
           :src="'/cabins/' + booking.cabin?.imageFilename"
+          alt="Image du chalet réservé"
         />
       </div>
 

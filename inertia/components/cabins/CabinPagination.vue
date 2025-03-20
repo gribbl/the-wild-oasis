@@ -4,12 +4,13 @@ import { ChevronLeftIcon, ChevronRightIcon, Link } from 'lucide-vue-next'
 defineProps<{
   previousPageUrl: string | null
   nextPageUrl: string | null
+  tableId: string
 }>()
 </script>
 
 <template>
   <div v-if="previousPageUrl || nextPageUrl" class="flex items-center gap-3">
-    <Button variant="outline" as-child>
+    <Button variant="outline" as-child aria-label="Page précédente" :aria-controls="tableId">
       <Link
         class="flex-1"
         :class="{ 'pointer-events-none opacity-50': !previousPageUrl }"
@@ -22,7 +23,7 @@ defineProps<{
         <span>Précédent</span>
       </Link>
     </Button>
-    <Button variant="outline" as-child>
+    <Button variant="outline" as-child aria-label="Page suivante" :aria-controls="tableId">
       <Link
         class="flex-1"
         :class="{ 'pointer-events-none opacity-50': !nextPageUrl }"

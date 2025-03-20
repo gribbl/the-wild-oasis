@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { SharedProps } from '@adonisjs/inertia/types'
-import { useForm, usePage } from '@inertiajs/vue3'
+import { Head, useForm, usePage } from '@inertiajs/vue3'
 import { AlertCircleIcon, LoaderIcon } from 'lucide-vue-next'
 import { computed } from 'vue'
 import Button from '~/components/ui/button/Button.vue'
 
 const form = useForm({
-  email: '',
-  password: '',
+  email: 'johndoe@email.io',
+  password: 'motdepasse',
   remember: false,
 })
 
@@ -28,6 +28,11 @@ function submit() {
 </script>
 
 <template>
+  <Head>
+    <title>Se connecter</title>
+    <meta name="description" content="Page de connexion." />
+  </Head>
+
   <h1 class="mb-5 scroll-m-20 text-2xl font-semibold tracking-tight">
     Identifiez-vous pour continuer
   </h1>

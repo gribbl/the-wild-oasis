@@ -17,8 +17,12 @@ const open = defineModel<boolean>('open')
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
-        <AlertDialogCancel @click="emit('cancel')">Annuler</AlertDialogCancel>
-        <AlertDialogAction @click="emit('confirm')">Supprimer</AlertDialogAction>
+        <AlertDialogCancel aria-label="Annuler la suppression du chalet" @click="emit('cancel')">
+          Annuler
+        </AlertDialogCancel>
+        <AlertDialogAction aria-label="Confirmer la suppression du chalet" @click="emit('confirm')">
+          Supprimer
+        </AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>

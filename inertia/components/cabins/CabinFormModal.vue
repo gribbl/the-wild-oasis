@@ -214,7 +214,13 @@ const description = computed(() => {
       </form>
 
       <DialogFooter>
-        <Button type="submit" form="form" :disabled="form.processing">
+        <Button
+          type="submit"
+          form="form"
+          :disabled="form.processing"
+          :aria-disabled="form.processing"
+          :aria-label="mode === 'add' ? 'Ajouter le chalet' : 'Modifier le chalet'"
+        >
           <LoaderIcon v-if="form.processing" class="mr-2 size-4 animate-spin" />
           <span>{{ mode === 'add' ? 'Ajouter le chalet' : 'Modifier le chalet' }}</span>
         </Button>

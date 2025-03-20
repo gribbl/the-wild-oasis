@@ -5,6 +5,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-vue-next'
 defineProps<{
   previousPageUrl: string | null
   nextPageUrl: string | null
+  tableId: string
 }>()
 </script>
 
@@ -13,12 +14,12 @@ defineProps<{
     v-if="previousPageUrl || nextPageUrl"
     class="flex items-center gap-3 self-stretch sm:justify-end"
   >
-    <Button variant="outline" as-child>
+    <Button variant="outline" as-child aria-label="Page précédente" :aria-controls="tableId">
       <Link
         class="flex-1 sm:flex-none"
         :class="{ 'pointer-events-none opacity-50': !previousPageUrl }"
         :href="previousPageUrl || ''"
-        :aria-disabled="previousPageUrl"
+        :aria-disabled="!previousPageUrl"
         preserve-state
         preserve-scroll
         :only="['bookings']"
@@ -28,12 +29,12 @@ defineProps<{
       </Link>
     </Button>
 
-    <Button variant="outline" as-child>
+    <Button variant="outline" as-child aria-label="Page suivante" :aria-controls="tableId">
       <Link
         class="flex-1 sm:flex-none"
         :class="{ 'pointer-events-none opacity-50': !nextPageUrl }"
         :href="nextPageUrl || ''"
-        :aria-disabled="nextPageUrl"
+        :aria-disabled="!nextPageUrl"
         preserve-state
         preserve-scroll
         :only="['bookings']"

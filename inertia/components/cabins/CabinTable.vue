@@ -3,7 +3,10 @@ import type CabinDto from '#dtos/cabin'
 import { ref, watch } from 'vue'
 import { router } from '@inertiajs/vue3'
 
-defineProps<{ cabins: CabinDto[] }>()
+defineProps<{
+  cabins: CabinDto[]
+  id: string
+}>()
 
 const isDeleteCabinModalOpen = ref<boolean | undefined>(false)
 const cabinToDeleteId = ref<number | null>(null)
@@ -45,7 +48,7 @@ watch(isEditCabinModalOpen, (value) => {
   <div
     class="mb-5 min-w-full overflow-x-auto scroll-smooth rounded-md border border-muted-foreground/15 bg-background"
   >
-    <Table v-if="cabins.length" class="min-w-full" layout="fixed">
+    <Table v-if="cabins.length" :id class="min-w-full" layout="fixed">
       <TableHeader>
         <TableRow>
           <TableHead class="px-4">Chalet</TableHead>
