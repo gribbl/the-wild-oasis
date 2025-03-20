@@ -32,14 +32,20 @@ watch(selectedPeriod, (value) => {
 </script>
 
 <template>
-  <Head title="Tableau de bord" />
+  <Head>
+    <title>Tableau de bord</title>
+    <meta
+      name="description"
+      content="Gérez facilement vos chalets depuis votre tableau de bord. Suivez les réservations et performances en un coup d'oeil."
+    />
+  </Head>
 
   <div class="mb-10 flex flex-col justify-between gap-5 sm:flex-row sm:items-center">
     <h1 class="text-center text-3xl font-bold tracking-wide sm:text-left">Tableau de bord</h1>
 
     <Select v-model="selectedPeriod">
-      <SelectTrigger class="w-[180px] self-end bg-background">
-        <SelectValue placeholder="Selectionnez une période" />
+      <SelectTrigger class="w-[180px] self-end bg-background" aria-label="Sélectionner une période">
+        <SelectValue placeholder="Sélectionnez une période" />
       </SelectTrigger>
       <SelectContent>
         <SelectLabel>Période</SelectLabel>

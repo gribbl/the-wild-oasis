@@ -1,12 +1,3 @@
-/*
-|--------------------------------------------------------------------------
-| Routes file
-|--------------------------------------------------------------------------
-|
-| The routes file is used for defining the HTTP routes.
-|
-*/
-
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
 
@@ -14,6 +5,7 @@ const SessionController = () => import('#controllers/auth/session_controller')
 const CabinsController = () => import('#controllers/cabins_controller')
 const BookingsController = () => import('#controllers/bookings_controller')
 const DashboardController = () => import('#controllers/dashboard_controller')
+const AccountController = () => import('#controllers/account_controller')
 const SettingsController = () => import('#controllers/settings_controller')
 
 router.on('/').redirect('/dashboard').use(middleware.auth()).as('home')
@@ -44,6 +36,15 @@ router
       })
       .prefix('cabins')
       .as('cabins')
+
+    router
+      .group(() => {
+        router.get('/', [AccountController, 'edit']).as('edit')
+        router.post('/name', [AccountController, 'updateName']).as('update.name')
+        router.post('/password', [AccountController, 'updatePassword']).as('update.password')
+      })
+      .prefix('account')
+      .as('account')
 
     router
       .group(() => {
