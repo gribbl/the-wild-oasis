@@ -2,6 +2,7 @@
 import { dashboardFilterValidator } from '#validators/dashboard'
 import { Head, router, usePage } from '@inertiajs/vue3'
 import type { Infer } from '@vinejs/vine/types'
+import { ArrowLeftIcon } from 'lucide-vue-next'
 import { ref, watch } from 'vue'
 
 type Props = {
@@ -58,8 +59,6 @@ watch(selectedPeriod, (value) => {
 
   <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
     <Stats :bookings-count :checkins-count :revenue :occupancy-rate />
-    <!-- <TodayActivity />
-    <DurationChart /> -->
     <SalesChart :data="chartData" />
   </div>
 </template>
