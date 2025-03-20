@@ -8,13 +8,13 @@ export default class BookingDto extends BaseDto {
   readonly id: number
   readonly nights: number
   readonly guests: number
+  readonly nightsPrice: number
   readonly extrasPrice: number
-  readonly status: string
   readonly hasBreakfast: boolean
-  readonly discount: number | null
-  readonly accommodationPrice: number | null
-  readonly breakfastPrice: number | null
-  readonly total: number | null
+  readonly breakfastPrice: number
+  readonly discountPrice: number
+  readonly status: string
+  readonly total: number
   readonly createdAt: string
   readonly startDate: string
   readonly endDate: string
@@ -26,16 +26,16 @@ export default class BookingDto extends BaseDto {
     this.id = booking.id
     this.nights = booking.nights
     this.guests = booking.guests
+    this.nightsPrice = booking.nightsPrice
     this.extrasPrice = booking.extrasPrice
-    this.status = booking.status
+    this.discountPrice = booking.discountPrice
     this.hasBreakfast = booking.hasBreakfast
+    this.breakfastPrice = booking.breakfastPrice
+    this.status = booking.status
+    this.total = booking.total
     this.createdAt = booking.createdAt.toISO()!
     this.startDate = booking.startDate.toISO()!
     this.endDate = booking.endDate.toISO()!
-    this.discount = booking.discount
-    this.accommodationPrice = booking.accommodationPrice
-    this.breakfastPrice = booking.breakfastPrice
-    this.total = booking.total
     this.cabin = relation(booking.cabin, CottageDto)
     this.guest = relation(booking.guest, GuestDto)
   }

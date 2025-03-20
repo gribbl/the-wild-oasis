@@ -54,7 +54,7 @@ watch(status, (value) => {
       <BookingStatusSelect v-model="status" />
     </TableCell>
     <TableCell class="whitespace-nowrap px-4 font-sono font-medium text-primary">
-      {{ formatCurrency(booking.total!) }}
+      {{ formatCurrency(booking.total) }}
     </TableCell>
     <TableCell class="whitespace-nowrap px-4 text-right">
       <DropdownMenu>

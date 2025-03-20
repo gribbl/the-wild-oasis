@@ -29,7 +29,7 @@ export const BookingFactory = factory
 
     return {
       guests: faker.number.int({ min: 2, max: 10 }),
-      extrasPrice: faker.number.float({ min: 50, max: 500, fractionDigits: 2 }),
+      extrasPrice: faker.number.float({ min: 150, max: 500, fractionDigits: 2 }),
       status,
       hasBreakfast: faker.datatype.boolean(),
       startDate,

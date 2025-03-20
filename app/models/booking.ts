@@ -1,9 +1,9 @@
-import { BaseModel, belongsTo, column, computed } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeSave, belongsTo, column, computed } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import { DateTime } from 'luxon'
 import Cabin from './cabin.js'
 import Guest from './guest.js'
-import { breakfastPrice } from '#config/settings'
+import Setting from './setting.js'
 
 export default class Booking extends BaseModel {
   @column({ isPrimary: true })
@@ -19,13 +19,22 @@ export default class Booking extends BaseModel {
   declare guests: number
 
   @column()
+  declare nightsPrice: number
+
+  @column()
+  declare discountPrice: number
+
+  @column()
   declare extrasPrice: number
 
   @column()
-  declare status: string
+  declare hasBreakfast: boolean
 
   @column()
-  declare hasBreakfast: boolean
+  declare breakfastPrice: number
+
+  @column()
+  declare status: string
 
   @column.dateTime()
   declare startDate: DateTime
@@ -54,25 +63,22 @@ export default class Booking extends BaseModel {
   }
 
   @computed()
-  get discount() {
-    if (!this.cabin) return null
-    return this.cabin.price * this.cabin.discount
-  }
-
-  @computed()
-  get accommodationPrice() {
-    if (!this.cabin) return null
-    return this.cabin.price * this.nights
-  }
-
-  @computed()
-  get breakfastPrice() {
-    return this.hasBreakfast ? this.nights * breakfastPrice : 0
-  }
-
-  @computed()
   get total() {
-    if (this.accommodationPrice === null || this.discount === null) return null
-    return this.accommodationPrice - this.discount + this.extrasPrice + this.breakfastPrice
+    return this.nightsPrice + this.breakfastPrice + this.extrasPrice - this.discountPrice
+  }
+
+  @beforeSave()
+  static async calculatePrices(booking: Booking) {
+    const [cabin, settings] = await Promise.all([
+      Cabin.findOrFail(booking.cabinId),
+      Setting.firstOrFail(),
+    ])
+
+    booking.nightsPrice = booking.nights * cabin.price
+    booking.discountPrice = booking.nightsPrice * cabin.discount
+
+    booking.breakfastPrice = booking.hasBreakfast
+      ? booking.guests * booking.nights * settings.breakfastPrice
+      : 0
   }
 }

@@ -21,9 +21,12 @@ export default class extends BaseSchema {
         .onDelete('CASCADE')
         .notNullable()
       table.integer('guests')
+      table.float('nights_price')
       table.float('extras_price')
-      table.string('status')
+      table.float('breakfast_price')
       table.boolean('has_breakfast')
+      table.float('discount_price')
+      table.string('status')
 
       table.timestamp('start_date')
       table.timestamp('end_date')

@@ -4,6 +4,7 @@ import Roles from '#enums/roles'
 import Booking from '#models/booking'
 import Cabin from '#models/cabin'
 import Role from '#models/role'
+import Setting from '#models/setting'
 import User from '#models/user'
 import { BaseSeeder } from '@adonisjs/lucid/seeders'
 
@@ -19,6 +20,12 @@ export default class extends BaseSeeder {
         name: 'Admin',
       },
     ])
+
+    await Setting.create({
+      minBookingLength: 2,
+      maxBookingLength: 10,
+      breakfastPrice: 30,
+    })
 
     await User.create({
       fullname: 'John Doe',
@@ -89,16 +96,19 @@ export default class extends BaseSeeder {
       },
     ])
 
-    const cabinsIds = cabins.map((cabin) => cabin.id)
+    // const cabinsIds = cabins.map((cabin) => cabin.id)
 
-    for (const cabinId of cabinsIds) {
+    for (const cabin of cabins) {
       const bookings: Booking[] = []
 
       for (let i = 0; i < 20; i++) {
         while (true) {
           const guest = await GuestFactory.create()
 
-          const newBooking = await BookingFactory.merge({ cabinId, guestId: guest.id }).make()
+          const newBooking = await BookingFactory.merge({
+            cabinId: cabin.id,
+            guestId: guest.id,
+          }).make()
 
           const isOverlapping = bookings.some(
             (booking) =>

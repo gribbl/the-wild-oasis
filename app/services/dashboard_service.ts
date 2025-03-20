@@ -74,7 +74,7 @@ export class DashboardService {
   private async getCabinsCount() {
     const totalCabins = await Cabin.query().count('* as total')
 
-    return totalCabins[0].$extras.total || 1
+    return totalCabins[0].$extras.total
   }
 
   /**
@@ -113,7 +113,7 @@ export class DashboardService {
         periodEndDate
       )
 
-      return sum + booking.total! * (nightsInPeriod / booking.nights)
+      return sum + booking.total * (nightsInPeriod / booking.nights)
     }, 0)
   }
 
@@ -203,8 +203,8 @@ export class DashboardService {
       let extrasForDay = 0
 
       bookingsForDay.forEach((booking) => {
-        revenueForDay += booking.total! / booking.nights
-        extrasForDay += (booking.extrasPrice || 0) / booking.nights
+        revenueForDay += booking.total / booking.nights
+        extrasForDay += booking.extrasPrice / booking.nights
       })
 
       chartData.push({

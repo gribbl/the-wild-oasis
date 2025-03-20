@@ -146,12 +146,16 @@ watch(status, (value) => {
           <div class="flex flex-col gap-3 rounded-t-lg p-5 text-muted-foreground">
             <div class="flex items-center justify-between">
               <span>Nuits</span>
-              <span class="font-sono">{{ formatCurrency(booking.accommodationPrice!) }}</span>
+              <span class="font-sono">
+                {{ formatCurrency(booking.nightsPrice) }}
+              </span>
             </div>
 
             <div class="flex items-center justify-between">
               <span>Petit-déjeuner</span>
-              <span class="font-sono">{{ formatCurrency(booking.breakfastPrice!) }}</span>
+              <span class="font-sono">
+                {{ formatCurrency(booking.breakfastPrice) }}
+              </span>
             </div>
 
             <div class="flex items-center justify-between">
@@ -161,7 +165,9 @@ watch(status, (value) => {
 
             <div class="flex items-center justify-between">
               <span>Remise</span>
-              <span class="font-sono">{{ formatCurrency(booking.discount!) }}</span>
+              <span class="font-sono">
+                {{ formatCurrency(booking.discountPrice) }}
+              </span>
             </div>
           </div>
           <div
@@ -170,7 +176,9 @@ watch(status, (value) => {
             <span class="font-bold">Total</span>
 
             <div class="flex items-center gap-3">
-              <span class="font-sono font-bold">{{ formatCurrency(booking.total!) }}</span>
+              <span class="font-sono font-bold">
+                {{ formatCurrency(booking.total) }}
+              </span>
             </div>
           </div>
         </div>
