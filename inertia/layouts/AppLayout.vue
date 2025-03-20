@@ -9,9 +9,13 @@ const props = defineProps<{ messages: Record<string, Toast> }>()
 watchEffect(() => {
   const exceptions = getToastMessage(props.messages.errorsBag)
   const success = getToastMessage(props.messages.success)
+  const error = getToastMessage(props.messages.error)
 
   if (exceptions) toast.error('Une erreur est survenue')
+
   if (success) toast.success(props.messages.success)
+
+  if (error) toast.error(props.messages.error)
 })
 
 function getToastMessage(toast: Toast) {

@@ -3,6 +3,8 @@ import type { HttpContext } from '@adonisjs/core/http'
 import CabinDto from '#dtos/cabin'
 import { CabinService } from '#services/cabin_service'
 import { inject } from '@adonisjs/core'
+import config from '@adonisjs/core/services/config'
+import ForbiddenException from '#exceptions/forbidden_exception'
 
 @inject()
 export default class CabinsController {
@@ -31,6 +33,10 @@ export default class CabinsController {
   async store({ request, response, session }: HttpContext) {
     const payload = await request.validateUsing(cabinValidator)
 
+    if (config.get('app.demo')) {
+      throw new ForbiddenException('Vous ne pouvez pas effectuer cette action en mode démo')
+    }
+
     await this.cabinService.store(payload)
 
     session.flash('success', 'Le chalet a été ajouté')
@@ -39,6 +45,10 @@ export default class CabinsController {
   }
 
   async destroy({ response, params, session }: HttpContext) {
+    if (config.get('app.demo')) {
+      throw new ForbiddenException('Vous ne pouvez pas effectuer cette action en mode démo')
+    }
+
     await this.cabinService.destroy(params.id)
 
     session.flash('success', 'Le chalet a été supprimé')
@@ -48,6 +58,10 @@ export default class CabinsController {
 
   async update({ request, response, params, session }: HttpContext) {
     const payload = await request.validateUsing(editCabinValidator)
+
+    if (config.get('app.demo')) {
+      throw new ForbiddenException('Vous ne pouvez pas effectuer cette action en mode démo')
+    }
 
     await this.cabinService.update(params.id, payload)
 

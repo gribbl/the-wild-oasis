@@ -3,6 +3,8 @@ import { Secret } from '@adonisjs/core/helpers'
 import { defineConfig } from '@adonisjs/core/http'
 import app from '@adonisjs/core/services/app'
 
+export const demo = env.get('DEMO_MODE', false)
+
 /**
  * The app key is used for encrypting cookies, generating signed URLs,
  * and by the "encryption" module.
