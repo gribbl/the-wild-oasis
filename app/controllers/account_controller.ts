@@ -1,5 +1,7 @@
+import ForbiddenException from '#exceptions/forbidden_exception'
 import { updateNameValidator, updatePasswordValidator } from '#validators/account'
 import type { HttpContext } from '@adonisjs/core/http'
+import config from '@adonisjs/core/services/config'
 import hash from '@adonisjs/core/services/hash'
 import { assertExists } from '@poppinss/utils/assert'
 
@@ -30,6 +32,10 @@ export default class AccountController {
     assertExists(auth.user)
 
     const { currentPassword, password } = await request.validateUsing(updatePasswordValidator)
+
+    if (config.get('app.demo')) {
+      throw new ForbiddenException('Vous ne pouvez pas effectuer cette action en mode démo')
+    }
 
     const isPasswordValid = await hash.verify(auth.user.password, currentPassword)
 
